@@ -4,19 +4,13 @@
 \begin{document}
         
     \begin{acknowledgment}
-        A4横型に対するガイドを基に，本稿を作成した．
-        クラスファイルの作成においては，
-        京都大学の中島　浩氏にさまざまなご教示を頂き，
-        さらにBiB\TeX 関連ファイルの利用についても快諾頂いたことを深謝する．
-        また，A4横型に対するガイドを作成された当時の編集委員会の担当者に深謝する．
+        謝辞がある場合はここに書く．
     \end{acknowledgment}
             
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
     \ifSubfilesClassLoaded{
-        %\bibliography{bibliography/bibsample,bibliography/ebibsample} % BibTeX ファイル名を指定（拡張子は不要）
-        %\bibliography{bibliography/reference}
-        \bibliography{bibliography/sample}
-        \bibliographystyle{junsrt} % 文献スタイルを指定
+        \bibliography{bibliography/sample} % BibTeX ファイル名を指定（拡張子は不要）
+        \bibliographystyle{ipsjunsrt} % 文献スタイルを指定
     }{}
 
 \end{document}
