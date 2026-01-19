@@ -5,16 +5,14 @@
         
     \begin{abstract}
         複数物体追跡（Multi-Object Tracking, MOT）は，コンピュータビジョン分野における重要なタスクの1つであり，ビデオシーケンスに登場する複数の物体を一意に識別し，その動きを正確に追跡することを目的とする．近年，スポーツ領域においても運動解析や戦術分析への応用を背景として，試合映像中の選手を対象としたMOTの研究が注目されている．しかし，スポーツシーンでは，選手が加減速や急な方向転換を伴う不規則な運動を示す上に，チーム競技では共通したユニフォームを着用することで，選手間でその外観が類似しやすくなる．そのため，位置情報や外観情報に基づく従来の関連付けでは物体の誤割当てが生じやすく，異なる物体同士を時間的に結び付けてしまうことで追跡精度の低下を招く．
-        
+
         本研究では，スポーツ選手を対象としたMOTの高精度化を目的とし，姿勢情報を考慮した追跡手法を提案する．具体的には，試合中に選手が多様な姿勢をとる点に着目し，深層学習に基づく姿勢推定モデルの中間層から抽出される特徴量の類似度を，物体検出結果と過去のTrackletの関連付けに導入した．これにより，複雑な運動や類似した外観を持つ物体が登場するシナリオでも，安定した物体の関連付けが期待できる．評価実験では，アイスホッケー選手を追跡対象とするVIP-HTDデータセットを用い，MOTAやIDF1をはじめとする主要評価指標により提案手法の有効性を検証した．
     \end{abstract}
             
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
     \ifSubfilesClassLoaded{
-        %\bibliography{bibliography/bibsample,bibliography/ebibsample} % BibTeX ファイル名を指定（拡張子は不要）
-        %\bibliography{bibliography/reference}
-        \bibliography{bibliography/sample}
-        \bibliographystyle{junsrt} % 文献スタイルを指定
+        \bibliography{bibliography/sample} % BibTeX ファイル名を指定（拡張子は不要）
+        \bibliographystyle{ipsjunsrt} % 文献スタイルを指定
     }{}
 
 \end{document}
