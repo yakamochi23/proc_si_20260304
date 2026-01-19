@@ -4,7 +4,7 @@
 \begin{document}
         
     %4
-    \section{論文の構成}
+    \section{評価実験}
     \label{config}
 
         ファイルは次のようになる．下線部は投稿時に省略可能なもの．
@@ -422,9 +422,7 @@
             
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
     \ifSubfilesClassLoaded{
-        %\bibliography{bibliography/bibsample,ebibsample} % BibTeX ファイル名を指定（拡張子は不要）
-        %\bibliography{bibliography/reference}
-        \bibliography{bibliography/sample}
+        \bibliography{bibliography/sample} % BibTeX ファイル名を指定（拡張子は不要）
         \bibliographystyle{junsrt} % 文献スタイルを指定
     }{}
 
