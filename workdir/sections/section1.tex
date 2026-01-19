@@ -1,0 +1,23 @@
+\documentclass[../main.tex]{subfiles} % 親ファイルを参照
+
+\begin{document}
+
+    \section{課題1}
+        情報処理学会では，研究報告の発行を行っている．
+
+        本稿では，まずそのスタイルファイルを用いた論文のフォーマットに関して述べる．
+        新たなスタイルファイルでは，
+        極力特別なコマンドは使わずに，標準的な\LaTeX のスタイルを踏襲している．
+        論文フォーマットに関しては，\ref{sec:format}~章で後述する指針に従って頂くが，
+        そこに規定されていること以外は標準的な\LaTeX のコマンドをそのまま使うことができる．
+        本稿は，そのスタイルファイルを実際に使っているので，論文執筆の際に参考にされたい．
+            
+    % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
+    \ifSubfilesClassLoaded{
+        %\bibliography{bibliography/bibsample,bibliography/ebibsample} % BibTeX ファイル名を指定（拡張子は不要）
+        %\bibliography{bibliography/reference}
+        \bibliography{bibliography/sample}
+        \bibliographystyle{junsrt} % 文献スタイルを指定
+    }{}
+
+\end{document}

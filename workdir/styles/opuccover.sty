@@ -1,0 +1,429 @@
+\typeout{Style file for OPU-C B&M thesis A4 File Cover v2021.1 <2021/12/7>}
+%%% 修論対応済
+%%% 元年のときだけ要変更
+
+%%%%
+%%%% 書式設定
+%%%%
+
+% 印字領域
+\setlength{\textwidth}{210.0mm}
+\setlength{\textheight}{297.0mm}
+\setlength{\paperwidth}{210.0mm}
+\setlength{\paperheight}{297.0mm}
+% 上マージン
+\setlength{\topmargin}{-1.0in}
+\setlength{\voffset}{0.0mm}
+\setlength{\topskip}{0.0mm}
+% 左マージン
+\setlength{\oddsidemargin}{-1.0in}
+\setlength{\evensidemargin}{-1.0in}
+% ヘッダ領域
+\setlength{\headheight}{0.0mm}
+\setlength{\headsep}{0.0mm}
+% フッタ領域
+\setlength{\footskip}{0.0mm}
+% ページ出力
+\pagestyle{empty}
+
+% 表紙は  A5縦よりちょっと小さい 195mm x 幅 150mm
+% 背表紙はA4縦 297mm x 幅 12.5mm
+
+%%%%
+%%%% Teikei 0.95 (youshi.sty より)
+%%%%
+\newdimen\X
+\newdimen\Y
+\newdimen\XM
+\newdimen\YM
+\newdimen\XA
+\newdimen\YA
+%
+\newdimen\Xa
+\newdimen\Xb
+\newdimen\Xc
+\newdimen\Xd
+\newdimen\Xe
+\newdimen\Xf
+\newdimen\Xg
+\newdimen\Xh
+\newdimen\XI %これだけ大文字なのは、ギリシャ文字とぶつかるから。
+\newdimen\Xj
+\newdimen\Xk
+\newdimen\Xl
+\newdimen\Xll
+\newdimen\Xm
+\newdimen\Xmm
+\newdimen\Xn
+\newdimen\Xoo
+\newdimen\Xo
+\newdimen\Xp
+\newdimen\Xq
+\newdimen\Xr
+\newdimen\Xs
+\newdimen\Xt
+\newdimen\Xu
+%
+\newdimen\Ya
+\newdimen\Yb
+\newdimen\Yc
+\newdimen\Yd
+\newdimen\Yea
+\newdimen\Yeb
+\newdimen\Ye
+\newdimen\Yf
+\newdimen\Yg
+\newdimen\Yh
+\newdimen\Yi
+\newdimen\Yj
+\newdimen\Yk
+\newdimen\Yl
+\newdimen\Ym
+\newdimen\Yn
+\newdimen\Yo
+\newdimen\Yp
+\newdimen\Yq
+\newdimen\Yqa
+\newdimen\Yqb
+\newdimen\Yr
+\newdimen\Ys
+\newdimen\Yt
+\newdimen\Ymt
+\newdimen\Yu
+\newdimen\Ymu
+\newdimen\Yv
+\newdimen\Yw
+\newdimen\Yx
+\newdimen\Yy
+\newdimen\Yz
+\newdimen\Yaa
+
+
+%%%
+%%% マクロ定義
+%%%
+\newbox\dummybox
+\newdimen\htbackskip
+\newdimen\dpbackskip
+\long\def\XY#1#2#3{
+  \setbox\dummybox=\vbox{
+    \vskip#2
+    \vskip\voffset % by masahide@mk.ecei.tohoku.ac.jp
+    \hbox to \hsize{%
+      \hskip#1
+      \hskip\hoffset % by masahide@mk.ecei.tohoku.ac.jp
+      \vbox{\advance\hsize by -#1#3}\hfil
+    }
+  }
+  \htbackskip=-\ht\dummybox
+  \dpbackskip=-\dp\dummybox
+%
+  \box\dummybox\nointerlineskip
+  \vskip\htbackskip
+  \vskip\dpbackskip
+%  \box\sepinbox\nointerlineskip
+}
+%
+% 絶対位置　(#1, #2) (#3, #4)で定まるボックスに
+% パラグラフとして#5 を入れる．マージン（両側）はXM, YM で決まる．
+\long\def\XYBP#1#2#3#4#5{
+  \X=#3 \Y=#4 \advance\X by -#1 \advance\Y by -#2
+  \XY{#1}{#2}{\PBOX{\X}{\Y}{#5}}
+}
+\long\def\PBOX#1#2#3{
+   \X=#1 \Y=#2 \advance\X by -\XM \XA=\X \advance\X by -\XM
+               \advance\Y by -\YM \YA=\Y \advance\Y by -\YM
+   \vbox to \YA{\vskip\YM
+   \hbox to \XA{\hskip\XM\vbox to \Y{\hsize=\X\linewidth=\X #3\vfil}%
+   \hfil}
+}}
+\newdimen\rulelength
+\def\Vrule#1#2#3#4{
+   \rulelength=#3
+   \advance\rulelength by -#2
+   \XY{#1}{#2}{\vrule width#4 height\rulelength depth0pt}
+}
+\def\Hrule#1#2#3#4{
+   \rulelength=#3
+   \advance\rulelength by -#1
+   \XY{#1}{#2}{\vrule width\rulelength height#4 depth0pt}
+}
+\def\kinto#1#2{\hbox to #1{\kintokanjiskip#2}}
+\def\kintokanjiskip{\kanjiskip=0pt plus 1fil minus 1fil%
+\xkanjiskip=\kanjiskip}
+
+%%%
+%%%  位置指定
+%%%
+\def\frameouta{{
+    \newcount\年度 \年度=\年 \advance\年度 by -1
+    \parindent=0mm
+    \frameparama
+    \framedisplaya
+    %%% 表紙
+    \XYBP{\Xl}{\Yl}{\Xo}{\Ym}{\centering{\huge{}令和 \the\年度{} 年度}}
+%    \XYBP{\Xl}{\Yl}{\Xo}{\Ym}{\centering{\huge{}令和元年度}}
+    \XYBP{\Xk}{\Yn}{\Xp}{\Yo}{\centering{\huge\論文}}
+    \XYBP{\Xf}{\Yp}{\Xt}{\Yqa}{\centering{\表紙フォント{\表紙題目１}}}
+    \XYBP{\Xf}{\Yqa}{\Xt}{\Yqb}{\centering{\表紙フォント{\表紙題目２}}}
+    \XYBP{\Xf}{\Yqb}{\Xt}{\Yq}{\centering{\表紙フォント{\表紙題目３}}}
+    \XYBP{\Xh}{\Yr}{\Xr}{\Ys}{\centering{\kinto{95.0mm}{\Large\所属１　\所属２}}}
+    \XYBP{\Xj}{\Yt}{\Xq}{\Yu}{\centering{\kinto{60.0mm}{\Large\所属３}}}
+
+    \if修士論文
+	    \XYBP{\Xj}{\Ymt}{\Xq}{\Ymu}{\centering{\Large （博士前期課程）}}
+    \fi
+
+    \if学籍番号表示
+        \XYBP{55mm}{\Yv}{85mm}{\Yx}{\hfil\raisebox{-2zh}[0pt]{\LARGE\学籍番号}}
+        \XYBP{95mm}{\Yv}{135mm}{\Yx}{
+          \raisebox{-2zh}[0pt]{\kinto{40.0mm}{\LARGE{}\氏名}}}
+    \else
+        \XYBP{\Xl}{\Yv}{\Xo}{\Yx}{
+          \raisebox{-2zh}[0pt]{\kinto{40.0mm}{\LARGE{}\氏名}}}
+    \fi
+
+    \XYBP{\Xj}{\Yy}{\Xq}{\Yz}{
+      \centering{\Large{}令和\the\年{}年\the\月{}月\the\日{}日 提出}}
+    }}
+
+%%% 枠
+\def\framedisplaya{
+%%% 背表紙
+  \Vrule{\Xb}{\Ya}{\Yj}{0.1pt}
+  \Vrule{\Xe}{\Ya}{\Yj}{0.1pt}
+%%% 表紙
+  \Hrule{\Xe}{\Yz}{\Xu}{0.1pt}
+  \Vrule{\Xu}{\Yk}{\Yz}{0.1pt}
+}
+
+%%%
+%%% 位置指定
+%%%
+\def\frameparama{
+% 背表紙横方向
+  \Xa =  0.00mm
+  \Xb = 10.00mm
+  \Xc = 13.45mm
+  \Xd = 19.05mm
+  \Xe = 22.50mm
+% 表紙横方向
+  \Xf = 32.50mm
+  \Xg = 42.50mm
+  \Xh = 47.50mm
+  \XI = 62.50mm
+  \Xj = 65.50mm
+  \Xk = 72.50mm
+  \Xl = 72.50mm
+  \Xll= 84.50mm
+  \Xmm= 87.50mm
+  \Xm = 92.50mm
+  \Xn =102.50mm
+  \Xoo=114.50mm
+  \Xo =122.50mm
+  \Xp =122.50mm
+  \Xq =129.50mm
+  \Xr =147.50mm
+  \Xs =152.50mm
+  \Xt =162.50mm
+  \Xu =172.50mm
+% 背表紙縦方向
+  \Ya =  0.00mm
+  \Yb = 10.00mm
+  \Yc = 21.00mm
+  \Yd = 25.00mm
+  \Yea= 35.50mm
+  \Yeb= 36.00mm
+  \Ye = 70.25mm
+  \Yf = 72.00mm
+  \Yg =252.00mm
+  \Yh =255.00mm
+  \Yi =285.00mm
+  \Yj =297.00mm
+% 表紙縦方向
+  \Yk =  0.00mm
+  \Yl = 20.00mm
+  \Ym = 30.00mm
+  \Yn = 35.00mm
+  \Yo = 45.00mm
+  \Yp = 65.00mm
+%  \Yqa= 73.50mm % 8.5mm(24pt)づつ Hugeは24.88pt
+%  \Yqb= 82.00mm
+%  \Yq = 90.50mm
+  \Yqa= 75.00mm % 10mm(28.3pt)づつ Hugeは24.88pt
+  \Yqb= 85.00mm
+  \Yq = 92.00mm
+  \Yr =140.00mm
+  \Ys =147.00mm
+  \Yt =150.00mm
+  \Yu =157.00mm
+  \Ymt =157.00mm
+  \Ymu =164.00mm
+  \Yv =168.00mm
+  \Yw =172.00mm
+  \Yx =177.00mm
+  \Yy =183.00mm
+  \Yz =195.00mm
+  \Yaa=210.00mm
+}
+
+
+%%%%
+%%%% 各種定義
+%%%%
+\newif\if卒業研究論文\卒業研究論文false
+\def\卒業研究論文{\卒業研究論文true}
+\newif\if修士論文\修士論文false
+\def\修士論文{\修士論文true}
+\newif\if学籍番号表示\学籍番号表示true
+\def\学籍番号表示なし{\学籍番号表示false}
+
+
+\def\論文{
+  \if卒業研究論文
+    卒業研究論文
+  \else
+    \if修士論文
+      修士論文
+    \else
+      論文指定なし
+    \fi
+  \fi
+  }
+\def\論文縦{
+  \if卒業研究論文
+    卒業研究論文
+  \else
+    \if修士論文
+      修士論文　　
+    \else
+      論文指定なし
+    \fi
+  \fi
+  }
+\def\所属１{
+  \if卒業研究論文
+    岡山県立大学
+  \else
+    \if修士論文
+      岡山県立大学大学院
+    \else
+      岡山県立大学／大学院
+    \fi
+  \fi
+  }
+\def\所属２{
+  \if卒業研究論文
+    情報工学部
+  \else
+    \if修士論文
+      情報系工学研究科
+    \else
+      学部／研究科不明
+    \fi
+  \fi
+  }
+\def\所属３{
+  \if卒業研究論文
+    情報通信工学科
+  \else %修論
+    \if修士論文
+      \専攻名
+    \else
+      学科／専攻不明
+    \fi
+  \fi
+  }
+
+\def\氏名{名前なし}
+\def\学籍番号{2100000}
+\def\表紙フォント{\Huge\bfseries\gtfamily\rmfamily}
+\def\表紙題目１{表紙題目(１行目)}
+\def\表紙題目２{表紙題目(２行目)}
+\def\表紙題目３{表紙題目(３行目)}
+\newcount\年 \年=99
+\newcount\月 \月=99
+\newcount\日 \日=99
+\def\背表紙フォント{\LARGE\bfseries\gtfamily\rmfamily}
+\def\背表紙題目{\表紙題目１\表紙題目２\表紙題目３}
+\newdimen\背表紙題目マージン
+\背表紙題目マージン = 11.5mm
+
+\def\frameoutb{
+%% 年度計算用マクロ。残しておくこと
+\newcount\x年度 \x年度=\年 \advance\x年度 by -1
+
+%%% 元年のときだけ要変更
+\atlatex{11.5mm}{11mm}{\begin{minipage}[c]{1cm}\centering%
+\pbox<t>{\Large{}令和 \pbox<y>{\Large{}\the\x年度} \Large{}年度 \論文縦}%
+%\pbox<t>{ \Large{}令和元年度 \論文縦}%
+\end{minipage}}
+
+\atlatex{\背表紙題目マージン}{74mm}{\begin{minipage}[c]{1cm}\centering%
+\pbox<t>{\smash{\背表紙フォント{\背表紙題目}}}%
+\end{minipage}}
+
+\atlatex{11.5mm}{255mm}{\begin{minipage}[c]{1cm}\centering%
+\pbox<t>{\Large{}\氏名}%
+\end{minipage}}
+}
+
+% at.sty     Colin Hogben (chah@jet.uk)
+% を動くように修整。
+%
+% 12-Aug-91  First version
+% 20-Mar-92  Fixed to allow for \headheight
+%
+% at{HPOS}{VPOS}{TEXT}
+% Positions TEXT at an absolute distance of HPOS from the left edge
+% and VPOS from the top edge of the current page.
+%
+% Example:
+%   \at(2cm,5cm){\parbox[t]{10cm}{
+%	Name\\		% Recipient's name and address positioned
+%	Address\\etc.}}	% suitably for a windowed envelope
+% -----------------------------------------------------------------
+
+%
+% First create a box in which to store absolute positioned material.
+%
+\newbox\@atbox
+%
+% at{HPOS}{VPOS}{TEXT}
+% Add the TEXT to the box with suitable offsets applied.
+%
+\newcommand{\atlatex}[3]{\setbox\@atbox=\hbox
+ {\unhbox\@atbox
+  \vtop to 0pt{\kern #2\hbox to 0pt{\kern #1\relax #3\hss}\vss}}}
+%
+% Unload the saved absolute-positioned material.
+% Teleport to the actual top corner of the page by undoing the header
+% separation, the top and side margins, and the mysterious 1 inch
+% offset applied to each. Then make it look like a singularity (zero
+% height, depth and width).
+%
+\def\@useat{%
+  \vtop to 0pt{\kern-\headsep \kern-\topmargin \kern-\headheight \kern-1in
+    \hbox to 0pt{\kern-\@themargin \kern-1in \unhbox\@atbox \hss}\vss}}
+%
+% The following is a copy of the latex.tex \output routine except for
+% line 1: this prepends the shifted absolute material to the current
+% page. A little unsafe to copy code like this, but I couldn't work
+% out where else to insert the box.
+%
+\output{\setbox255=\vbox{\@useat \unvbox255}
+  \ifnum\outputpenalty <-\@M\@specialoutput\else
+  \@makecol\@opcol\@floatplacement\@startcolumn
+  \@whilesw\if@fcolmade \fi{\@opcol\@startcolumn}\fi
+  \global\vsize\ifnum\outputpenalty >-\@Miv \@colroom
+                  \else \maxdimen\fi}
+%
+
+%%%
+%%% Todo: textpos か何かで書き直したい。
+%%%       coverもそうだがabstractもそう。teikei.sty 発祥なのがレガシーすぎ？
+%%% Todo: covertate.pdf に 背表紙4列、
+%%%       coveryoko,pdf で 表紙2面 をA4にまとめたものが作れたらいいのに。
+%%%       と思ったけど印刷枚数かわらんか？ 
+%%%
+

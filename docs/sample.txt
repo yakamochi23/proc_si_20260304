@@ -1,0 +1,44 @@
+ここには、補足情報などを記述する。
+
+.PHONY: backup
+backup:
+	mkdir -p ${WORKDIR}/backup
+	cp ${WORKDIR}/*.{aux,log,out,dvi,bbl,blg,fls,fdb_latexmk} ${WORKDIR}/backup/ || true
+
+
+backup.sh
+    コンパイル時に生成された中間ファイルのバックアップを行うスクリプト
+
+
+analyze_errors.sh
+    LaTeXコンパイル中にエラーが発生した場合、その内容を解析するスクリプト
+
+
+    LaTeX ソースファイル (.tex) で使用されている外部リソース（画像やスタイルファイルなど）の存在を確認し、欠落しているものを特定するスクリプト
+
+
+
+
+
+
+
+
+makedir -p output intermediate
+
+
+uplatex -kanji=utf8 -output-directory=intermediate/ sections/chapter1.tex
+
+dvipdfmx -f ptex-ipaex.map -o output/chapter1.pdf intermediate/chapter1.dvi
+
+
+================================================================================
+
+uplatex -kanji=utf8 -output-directory=intermediate/ sections/chapter1.tex
+
+upbibtex -kanji=utf8 intermediate/chapter1
+
+uplatex -kanji=utf8 -output-directory=intermediate/ sections/chapter1.tex
+
+uplatex -kanji=utf8 -output-directory=intermediate/ sections/chapter1.tex
+
+dvipdfmx -f ptex-ipaex.map -o output/chapter1.pdf intermediate/chapter1.dvi

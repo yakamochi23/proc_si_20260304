@@ -1,0 +1,297 @@
+\typeout{Bachelor Thesis Style File for OPU-C A4 v2021.1 <2021/12/13>}
+%%
+%% 修論未対応
+%%
+
+\makeatletter
+\newif\if@masterthesis
+\@masterthesisfalse
+\@namedef{ds@master}{\global\@masterthesistrue} % sets variable for draft
+\@options
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{plain}
+
+%% 用紙サイズは 本文.tex の geometry パッケージで設定すること
+%% (ドキュメントクラスオプションに影響されないようにするため）
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+\newtoks\題目X
+\newtoks\題目Y
+\newtoks\題目Z
+\newtoks\英文題目
+\newtoks\教育研究分野
+\newtoks\学籍番号
+\newtoks\氏名
+\newtoks\英文氏名
+\newtoks\ABSTRACT
+
+\newcounter{年度}
+\newcounter{提出年}
+\newcounter{提出月}
+\newcounter{提出日}
+
+\newcommand{\提出}[3]{
+  \setcounter{提出年}{#1} 
+  \setcounter{提出月}{#2} 
+  \setcounter{提出日}{#3} 
+  \setcounter{年度}{#1} 
+  \addtocounter{年度}{-1} }
+
+
+\def\kintokanjiskip{\kanjiskip=0pt plus 1fil minus 1fil%
+        \xkanjiskip=\kanjiskip}
+\def\kinto#1#2#3{\hbox to #1{\kintokanjiskip#2}{\kintokanjiskip#3}}
+
+%
+%
+%  表紙の体裁
+%
+%
+\newcommand{\MakeTitle}{
+  \begin{center}
+%%%% 修士論文用
+    \if@masterthesis
+      \vspace*{30mm}
+      \makebox{\huge 令和 \arabic{年度} 年度}
+%      \makebox{\huge 令和元年度}
+      \vspace{5mm}\\
+      \makebox{\kinto{50mm}{\Huge 修士論文}{}}
+      \vspace{20mm}\\
+      {\huge\bfseries\rmfamily\gtfamily\the\題目X}\\
+      {\huge\bfseries\rmfamily\gtfamily\the\題目Y}\\
+      {\huge\bfseries\rmfamily\gtfamily\the\題目Z}
+      \vspace{\fill} \\
+      \LARGE 岡山県立大学大学院　情報系工学研究科 \smallskip \\
+      \LARGE  電子情報通信工学専攻 
+      \vspace{10mm} \\
+      {\huge\the\学籍番号 }
+      \hspace{5zw}
+%      {\huge\bfseries\rmfamily\mcfamily\the\氏名 } 
+      {\huge\the\氏名 } 
+      \vspace{10mm} \\
+      {\LARGE 令和\arabic{提出年}年\arabic{提出月}月\arabic{提出日}日 提出}
+%%%% 卒業論文用
+    \else
+      \vspace*{10mm}
+      \makebox{\huge 令和 \arabic{年度} 年度\hspace*{3zw}卒業研究論文}
+%      \makebox{\huge 令和元年度    \qquad 卒業研究論文}
+      \vspace{25mm} \\
+      {\Huge\bfseries\rmfamily\gtfamily\the\題目X}\vspace{2mm}\\
+      {\Huge\bfseries\rmfamily\gtfamily\the\題目Y}\vspace{2mm}\\
+      {\Huge\bfseries\rmfamily\gtfamily\the\題目Z}
+      \vspace{\fill} \\
+      {\Large 令和\arabic{提出年}年\arabic{提出月}月\arabic{提出日}日 提出}
+      \vspace{10mm} \\
+      \LARGE 岡山県立大学\hspace*{1zw}情報工学部 \smallskip \\
+      \LARGE  情報通信工学科 
+      \vspace{15mm} \\
+      {\huge\the\学籍番号 }
+      \hspace{5zw}
+%      {\huge\bfseries\rmfamily\mcfamily\the\氏名 } 
+      {\huge\the\氏名 } 
+    \fi
+  \end{center}
+  \thispagestyle{empty}
+  \vspace*{25mm}
+  \if@masterthesis
+  \else
+    \newpage
+  \fi
+}
+
+%
+%
+%  abstract環境の再定義
+%
+%
+\renewenvironment{abstract}{%
+  \newpage%
+  \pagenumbering{roman}
+  \renewcommand{\baselinestretch}{1.25}
+  \begin{center}
+    \LARGE\bf\the\英文題目
+  \end{center}
+  \vspace{5mm}
+  \begin{center}
+    \Large\the\学籍番号 \qquad \the\英文氏名
+  \end{center}
+  \vspace{5mm}
+  \large
+  \begin{center}%
+    {\bfseries ABSTRACT}%
+  \end{center}%
+  \bigskip}{%
+  \newpage%
+    \newpage%
+    \renewcommand{\baselinestretch}{1.0}
+    \normalsize
+    \tableofcontents
+    \newpage
+    \pagenumbering{arabic}}
+
+\renewcommand{\appendixname}{付録}
+
+\newcommand{\tocack}{\addcontentsline{toc}{chapter}{謝辞}}
+
+%
+%  thebiliography環境の再定義
+%    
+%
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]
+{\chapter*{\bibname\@mkboth{\bibname}{\bibname}}%
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \@clubpenalty\clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+  {\def\@noitemerr
+    {\@latex@warning{Empty `thebibliography' environment}}%
+   \endlist}
+\newcommand{\tocbib}{%
+  \newpage\addcontentsline{toc}{chapter}{\bibname}%
+  \markboth{\bibname}{\bibname}}
+
+%
+%
+% 図表キャプションのフォントを小さくする
+%
+%
+\long\def\@makecaption#1#2{
+  \vskip 10pt 
+  \setbox\@tempboxa\hbox{\small #1.\hspace{1zw}#2}
+  \newbox\@tempboxb
+  \setbox\@tempboxb\hbox{\small #2}
+  \newbox\@tempboxc
+  \setbox\@tempboxc\hbox{\small #1.}
+  \ifdim \wd\@tempboxb > 0.9\textwidth
+    \hbox to\hsize{%
+      \hfil\box\@tempboxc \hspace{1zw}\parbox[t]{0.8\hsize}{\small #2}\hfil}
+  \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil} 
+  \fi}
+\def\fnum@figure{\figurename\thefigure}
+\def\fnum@table{\tablename\thetable}
+
+%
+%
+% enumerate環境の再定義 (jreport.cls より引用)
+%
+%
+\renewenvironment{enumerate}{%
+  \ifnum \@enumdepth >3
+    \relax\@toodeep
+  \else
+   \advance\@enumdepth\@ne
+   \edef\@enumctr{enum\romannumeral\the\@enumdepth}%
+   \list{\csname label\@enumctr\endcsname}{%
+     \ifnum \@listdepth=\@ne
+       \topsep.25\normalbaselineskip
+     \else
+       \topsep\z@
+     \fi
+     \parskip\z@
+     \itemsep 4pt plus 2pt minus 1pt
+     \parsep\z@
+     \labelwidth1zw \labelsep.3zw
+     \ifnum \@enumdepth=\@ne
+       \leftmargin1zw\relax
+     \else
+       \leftmargin\leftskip
+     \fi
+     \advance\leftmargin 1zw
+     \usecounter{\@enumctr}%
+     \def\makelabel##1{\hss\llap{##1}}}%
+   \fi}{\endlist}
+
+%
+%
+% itemize環境の再定義 (jreport.cls より引用)
+%
+%
+\renewenvironment{itemize}{%
+  \ifnum \@itemdepth >3
+    \relax\@toodeep
+  \else
+    \advance\@itemdepth\@ne
+    \edef\@itemitem{labelitem\romannumeral\the\@itemdepth}%
+    \expandafter
+    \list{\csname \@itemitem\endcsname}{%
+      \iftdir
+        \ifnum \@listdepth=\@ne
+          \topsep.25\normalbaselineskip
+        \else
+          \topsep\z@
+        \fi
+        \parskip\z@
+        \itemsep 4pt plus 2pt minus 1pt
+        \parsep\z@
+        \labelwidth1zw \labelsep.3zw
+        \ifnum \@itemdepth =\@ne
+          \leftmargin1zw\relax
+        \else
+          \leftmargin\leftskip
+        \fi
+        \advance\leftmargin 1zw
+      \fi
+      \def\makelabel##1{\hss\llap{##1}}}%
+    \fi}{\endlist}
+
+
+
+%
+%
+% 定理番号を[ ]付きにする (ieicej.sty より引用)
+%   added by K.Sakakibara
+%
+\def\thrmlabel#1{\hspace\labelsep #1}
+\def\thrm{%
+ \list{}{%
+  \leftmargin\z@
+  \labelsep1zw
+  \labelwidth\z@
+  \itemindent-\leftmargin
+  \listparindent=1zw
+  \itemsep 4pt plus 2pt minus 1pt
+  \topsep 8pt plus 3pt minus 2pt
+  \parsep\z@
+  \partopsep\z@
+  \let\makelabel\thrmlabel}}
+\let\endthrm\endlist
+
+\def\@begintheorem#1#2{%
+ \settowidth{\labelwidth}{\kern-.0zw [#1\ #2]\kern-.5zw }
+ \settowidth{\leftmargin}{0.5pt}
+ \begin{thrm}
+  \item[\bf\@thmlbracket #1#2\@thmrbracket]}
+
+\def\@opargbegintheorem#1#2#3{%
+ \begin{thrm}
+  \item[\bf\@thmlbracket #1#2 (#3)\@thmrbracket]}%%
+\def\@endtheorem{\end{thrm}}
+
+\def\thmbracket#1#2{\gdef\@thmlbracket{#1}\gdef\@thmrbracket{#2}}
+\thmbracket{\kern-.0zw [}{]\kern-.5zw }
+\def\@thmcountersep{.}
+
+\makeatother
+
+
+
+%%%
+%%% ToDo: 修論未対応。
+%%% 条件分岐を結構削ってしまったので、卒論専用になっている。後で戻すかも。
+%%%
+%%%

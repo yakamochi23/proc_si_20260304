@@ -1,0 +1,38 @@
+{
+    // 日本語文書で単語移動を使うため、区切り文字を指定
+    "editor.wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?　、。「」【】『』（）！？てにをはがのともへでや",
+
+    // 設定: LaTeX Workshop
+
+    // LaTeX Workshop ではビルド設定を「Tool」と「Recipe」という2つで考える
+    //   Tool: 実行される1つのコマンド。コマンド (command) と引数 (args) で構成される
+    //   Recipe: Tool の組み合わわせを定義する。Tool の組み合わせ (tools) で構成される。
+    //           tools の中で利用される Tool は "latex-workshop.latex.tools" で定義されている必要がある。
+
+    // 設定：LaTeX Workshop
+
+    // LaTeX Workshop の Tool 定義を空に設定
+    "latex-workshop.latex.tools": [],
+
+    // LaTeX Workshop の Recipe 定義を空に設定
+    "latex-workshop.latex.recipes": [],
+    
+    // 自動ビルドを完全に無効化
+    "latex-workshop.latex.autoBuild.run": "never",
+
+    // PDF ビューアの設定（エディタ右側に表示）
+    "latex-workshop.view.pdf.viewer": "tab",
+
+    // LaTeX Workshop のログを非表示に設定（必要に応じて有効化可）
+    "latex-workshop.message.log.show": false,
+
+    // ファイルの種類ごとのエディタ設定
+    "[plaintext]": {
+        "editor.wordWrap": "on"   // .txt ファイルの折り返しを有効化
+    },
+    "[latex]": {
+        "editor.wordWrap": "on",   // .tex ファイルの折り返しを有効化
+        "editor.formatOnSave": true,  // 保存時に自動フォーマット
+    },
+
+}

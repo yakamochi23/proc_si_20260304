@@ -1,0 +1,53 @@
+\documentclass[../main.tex]{subfiles} % 親ファイルを参照
+
+
+\setcounter{chapter}{0} % 章番号を付番
+\begin{document}
+
+    \chapter{序論}
+        ここに章の内容を書きます．序論を書く．\cite{Simonyan15}
+
+        画像を載せたい場合は，
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=70mm]{figures/chapter1/mucha.png}
+            \caption{アルフォンス・ミュシャ}
+            \label{fig:mucha}
+        \end{figure}
+        のようにして画像を挿入することができる．図\ref{fig:mucha}は肖像画である．
+
+        2つの画像を横並びで挿入する．図\ref{fig:彩度を半分にする前後の画像}を見ると，源画像（図\ref{fig:彩度を半分にする前の画像}）の彩度が低減された画像（図\ref{fig:彩度を半分にした後の画像}）が得られていることが確認できる．
+        \begin{figure}[H]
+            \centering
+            % 左側の画像
+            \begin{subfigure}[b]{.5\linewidth}
+                \centering
+                \includegraphics[width=0.8\linewidth]{figures/sample_fig/lena.png}
+                \subcaption{源画像}
+                \label{fig:彩度を半分にする前の画像}
+            \end{subfigure}
+            % 右側の画像
+            \begin{subfigure}[b]{.5\linewidth}
+                \centering
+                \includegraphics[width=0.8\linewidth]{figures/sample_fig/lena_half.png}
+                \subcaption{彩度を半分にした画像}
+                \label{fig:彩度を半分にした後の画像}
+            \end{subfigure}
+            \caption{彩度を半分にする前後の画像}
+            \label{fig:彩度を半分にする前後の画像}
+        \end{figure}
+
+        数式を書いてみる．
+        \begin{align}
+            y = f(x)
+            \label{eq:sample}
+        \end{align}
+        式\ref{eq:sample}は$y$が$x$の関数であることを表す．
+
+    % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
+    \ifSubfilesClassLoaded{
+        \bibliography{bibliography/reference} % BibTeX ファイル名を指定（拡張子は不要）
+        \bibliographystyle{junsrt} % 文献スタイルを指定
+    }{}
+
+\end{document}

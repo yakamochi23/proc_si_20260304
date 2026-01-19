@@ -1,0 +1,23 @@
+\documentclass[../main.tex]{subfiles} % 親ファイルを参照
+
+
+\begin{document}
+        
+    \begin{abstract}
+        本稿は，情報処理学会研究報告に投稿する原稿を執筆する際の注意点等をまとめたものである．
+        \LaTeX と専用のスタイルファイルを用いた場合の論文フォーマットに関する指針，
+        および論文の内容に関してするべきこと，
+        するべきでないことをまとめたべからずチェックリストからなる．
+        本稿自体も\LaTeX と専用のスタイルファイルを用いて執筆されているため，
+        論文執筆の際に参考になれば幸いである．
+    \end{abstract}
+            
+    % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
+    \ifSubfilesClassLoaded{
+        %\bibliography{bibliography/bibsample,bibliography/ebibsample} % BibTeX ファイル名を指定（拡張子は不要）
+        %\bibliography{bibliography/reference}
+        \bibliography{bibliography/sample}
+        \bibliographystyle{junsrt} % 文献スタイルを指定
+    }{}
+
+\end{document}

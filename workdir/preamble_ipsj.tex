@@ -1,0 +1,36 @@
+%%
+%% 研究報告用スイッチ
+%% [techrep]
+%%
+%% 欧文表記無しのスイッチ(etitle,eabstractは任意)
+%% [noauthor]
+%%
+
+
+
+
+%\usepackage[dvips]{graphicx}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{latexsym}
+
+\def\Underline{\setbox0\hbox\bgroup\let\\\endUnderline}
+\def\endUnderline{\vphantom{y}\egroup\smash{\underline{\box0}}\\}
+\def\|{\verb|}
+%
+
+%\setcounter{巻数}{59}%vol59=2018
+%\setcounter{号数}{10}
+%\setcounter{page}{1}
+
+\AtBeginDvi{\special{pdf:mapfile uptex-haranoaji.map}}
+\AtBeginDvi{\special{pdf:mapline rml  UniJIS2004-UTF16-H HaranoAjiMincho-Regular.otf}}
+\AtBeginDvi{\special{pdf:mapline rmlv UniJIS2004-UTF16-V HaranoAjiMincho-Regular.otf}}
+\AtBeginDvi{\special{pdf:mapline gbm  UniJIS2004-UTF16-H HaranoAjiGothic-Medium.otf}}
+\AtBeginDvi{\special{pdf:mapline gbmv UniJIS2004-UTF16-V HaranoAjiGothic-Medium.otf}}
+
+
+\usepackage{subfiles}
+\renewcommand{\baselinestretch}{1.0} % 全体の行間を変更（デフォルトは倍率1.0, 先生に提出する際は2.0くらいが良い）
+\usepackage[subrefformat=parens]{subcaption}% 複数の図を貼るときのsubcaption
+\renewcommand\thesubfigure{(\alph{subfigure})}% 図版のフォーマット用
+\captionsetup[subfigure]{labelformat=simple, labelsep=space}% 図版のフォーマット用

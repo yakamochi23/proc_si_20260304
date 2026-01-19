@@ -1,0 +1,18 @@
+# fontencとlmodernが有効化を確認する方法
+
+    docker container内で、
+        kpsewhich fontenc.sty
+        kpsewhich lmodern.sty
+    上記のコマンドで、パスが通っていれば有効
+
+# TeXLive環境のインストール済みパッケージのリストを得る方法
+
+        tlmgr info --only-installed
+
+    出力の形式は
+
+        i  パッケージ名: 説明文
+
+    テキストファイルに出力して確認するのが良い。
+
+        tlmgr info --only-installed > test.txt

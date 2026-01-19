@@ -1,0 +1,24 @@
+\documentclass[../main.tex]{subfiles} % 親ファイルを参照
+
+
+\begin{document}
+        
+    \section{おわりに}
+
+        本稿では，A4縦型2段組み用に変更したスタイルファイルを用いた論文のフォー
+        マット方法と，論文誌ジャーナル編集委員会がまとめた「べからず集」に基づく
+        論文の書き方を示した．内容的にまだ不十分の部分が多いため，意見，要望等を
+            \begin{quote}
+            \|editt@ipsj.or.jp|
+            \end{quote}
+        までお寄せ頂きたい．
+            
+    % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
+    \ifSubfilesClassLoaded{
+        %\bibliography{bibliography/bibsample,bibliography/ebibsample} % BibTeX ファイル名を指定（拡張子は不要）
+        %\bibliography{bibliography/reference}
+        \bibliography{bibliography/sample}
+        \bibliographystyle{junsrt} % 文献スタイルを指定
+    }{}
+
+\end{document}

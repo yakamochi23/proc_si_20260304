@@ -1,0 +1,364 @@
+\typeout{Style file for OPU-C B&M thesis Abstract (A4) v2021.1 <2021/12/13>}
+%%% 修論対応済
+
+%platex/uplatexでの処理であること、[10pt, nomag*] であることを前提とする。
+\NeedsTeXFormat{pLaTeX2e}
+
+%%%%
+%%%% 書式設定
+%%%%
+% 印字領域
+\setlength{\textwidth}{166.0mm}
+\setlength{\textheight}{265.0mm}
+% 上マージン
+\setlength{\topmargin}{15.0mm}
+\addtolength{\topmargin}{-1.0in}
+\setlength{\voffset}{0.0mm}
+\setlength{\topskip}{0.0mm}
+% 左マージン
+\setlength{\oddsidemargin}{22.0mm}
+\addtolength{\oddsidemargin}{-1.0in}
+\setlength{\evensidemargin}{22.0mm}
+\addtolength{\evensidemargin}{-1.0in}
+\setlength{\hoffset}{0.0mm}
+% ヘッダ領域
+\setlength{\headheight}{0.0mm}
+\setlength{\headsep}{0.0mm}
+
+% フッタ領域
+\setlength{\footskip}{0.0mm}
+
+% ページ出力 文字 12pt=4.2mm
+\pagestyle{plain}
+%\setlength{\footskip}{6.25mm}
+\setlength{\footskip}{7.5mm}
+\def\thepage{\fontsize{12.045}{12.045}\selectfont\頁}%
+
+%%%%
+%%%% Teikei 0.95 (youshi.sty より)
+%%%%
+\newdimen\X
+\newdimen\Y
+\newdimen\Xa
+\newdimen\Xb
+\newdimen\Xc
+\newdimen\Xd
+\newdimen\Xe
+\newdimen\Xee
+\newdimen\Xf
+\newdimen\Xff
+\newdimen\Xmff
+\newdimen\Xg
+\newdimen\Xh
+\newdimen\XI %これだけ大文字なのは、ギリシャ文字とぶつかるから。
+\newdimen\Xj
+\newdimen\Xk
+\newdimen\Xmj
+\newdimen\Xmk
+\newdimen\Xl
+\newdimen\Xll
+\newdimen\Xm
+\newdimen\Xmm
+\newdimen\Xmmm
+\newdimen\Xn
+\newdimen\Xo
+\newdimen\Xp
+\newdimen\Xq
+\newdimen\Xs
+\newdimen\Xss
+\newdimen\Xt
+\newdimen\Xtt
+\newdimen\Yb
+\newdimen\Ybb
+\newdimen\Yc
+\newdimen\Yd
+\newdimen\Ye
+\newdimen\Yf
+\newdimen\Yg
+\newdimen\Yh
+\newdimen\Yi
+
+%%%%
+%%%% Teikei 0.95 (teikei.cls より)
+%%%% (元ソースが手に入らないので迂闊に触れない)
+%%%%
+\newif\if枠表示\枠表示true
+\def\FRAMEON{\枠表示true}%with rules and item names
+\def\FRAMEOFF{\枠表示false}%without rules nor item names
+
+\newbox\dummybox
+\newdimen\htbackskip
+\newdimen\dpbackskip
+\long\def\XY#1#2#3{
+  \setbox\dummybox=\vbox{
+    \vskip#2
+    \vskip\voffset % by masahide@mk.ecei.tohoku.ac.jp
+    \hbox to \hsize{%
+      \hskip#1
+      \hskip\hoffset % by masahide@mk.ecei.tohoku.ac.jp
+      \vbox{\advance\hsize by -#1#3}\hfil
+    }
+  }
+  \htbackskip=-\ht\dummybox
+  \dpbackskip=-\dp\dummybox
+%
+  \box\dummybox\nointerlineskip
+  \vskip\htbackskip
+  \vskip\dpbackskip
+%  \box\sepinbox\nointerlineskip
+}
+\long\def\XYBC#1#2#3#4#5{
+  \X=#3 \Y=#4 \advance\X by -#1 \advance\Y by -#2
+  \XY{#1}{#2}{\CBOX{\X}{\Y}{#5}}
+}
+\long\def\CBOX#1#2#3{{
+  \hsize=#1\linewidth=\hsize
+  \setbox\dummybox\hbox{#3}
+  \vbox to #2{
+    \vfil
+    \ifdim#1 < \wd\dummybox
+      \X=#1
+      \advance\X by -4mm
+      \hbox to \hsize{\hfil\vbox{\hsize=\X\linewidth=\hsize #3}\hfil}
+    \else
+      \hbox to \hsize{\hfil #3\hfil}
+    \fi
+    \vfil
+  }
+}}
+\def\Add#1#2{\def\DUMMY{#2}\ifx\DUMMY\empty\else\advance#1 by#2\fi}
+\def\Brule#1#2#3#4#5{
+   \X=#4 \Add{\X}{#5}
+   \Hrule{#1}{#2}{#3}{#5}
+   \Hrule{#1}{#4}{#3}{#5}
+   \Vrule{#1}{#2}{#4}{#5}
+   \Vrule{#3}{#2}{\X}{#5}
+}
+\newdimen\rulelength
+\def\Vrule#1#2#3#4{
+   \rulelength=#3
+   \advance\rulelength by -#2
+   \XY{#1}{#2}{\vrule width#4 height\rulelength depth0pt}
+}
+\def\Hrule#1#2#3#4{
+   \rulelength=#3
+   \advance\rulelength by -#1
+   \XY{#1}{#2}{\vrule width\rulelength height#4 depth0pt}
+}
+\def\kinto#1#2{\hbox to #1{\kintokanjiskip#2}}
+\def\kintokanjiskip{\kanjiskip=0pt plus 1fil minus 1fil%
+\xkanjiskip=\kanjiskip}
+%%%%
+%%%% Teikei 0.95 ここまで
+%%%% 
+
+\def\frameouta{
+  \newlength{\parindentorg}
+  \setlength{\parindentorg}{\parindent}
+  \parindent=0mm
+  \frameparama
+% 枠を複数表示するとずれるので１つだけを選ぶ
+  \vbox{\if枠表示\framedisplaya\fi}
+%  \vbox{\if枠表示\framedisplayb\fi}
+%  \vbox{\if枠表示\framedisplaytitle\fi} %レイアウト確認用
+
+% Word と TeX ではフォントサイズが異なるのでテンプレ部分だけでも揃える
+% TexFontPt = WordFontPt * (72.27/72.0)
+% 12	12.045
+% 14.5	14.554
+%
+% さらに和文フォントは英文フォントとの関係性を維持するために 0.962倍されている。
+% よって TexJpPt = TeXpt * (72.27/72.0) / 0.962
+% 12	12.52
+% 14.5	15.13
+
+% 位置設定
+  \if卒業研究論文
+%     \XYBC{\Xd}{\Yb}{\Xf}{\Ybb}{\fontsize{12.52}{12.52}\selectfont\令和年度}
+%     \XYBC{\Xf}{\Yb}{\Xn}{\Ybb}{\fontsize{12.52}{12.52}\selectfont\kinto{96.36pt}{\要旨表題}}
+     \XYBC{\Xd}{\Yb}{\Xn}{\Ybb}{\fontsize{12.52}{12.52}\selectfont\令和年度\hspace*{4zw}\要旨表題}
+    \if学籍番号表示
+%      \XYBC{\Xss}{\Yc}{\Xee}{\Yd}{\fontsize{12.52}{12.52}\selectfont{}教育研究分野}
+%      \XYBC{\Xee}{\Yc}{\Xff}{\Yd}{\fontsize{12.52}{12.52}\selectfont\教育研究分野}
+      \XYBC{\Xss}{\Yc}{\Xff}{\Yd}{\fontsize{12.52}{12.52}\selectfont{}教育研究分野\hspace*{2zw}\教育研究分野}
+%      \XYBC{\Xj}{\Yc}{\Xk}{\Yd}{\fontsize{12.52}{12.52}\selectfont\学籍番号}
+%      \XYBC{\Xmm}{\Yc}{\Xtt}{\Yd}{\fontsize{12.52}{12.52}\selectfont\氏名}
+      \XYBC{\Xj}{\Yc}{\Xtt}{\Yd}{\fontsize{12.52}{12.52}\selectfont\学籍番号\hspace*{3zw}\氏名}
+    \else
+      \XYBC{\Xss}{\Yc}{\Xee}{\Yd}{\fontsize{12.52}{12.52}\selectfont{}教育研究分野}
+      \XYBC{\Xee}{\Yc}{\Xff}{\Yd}{\fontsize{12.52}{12.52}\selectfont\教育研究分野}
+      \XYBC{\Xmm}{\Yc}{\Xtt}{\Yd}{\fontsize{12.52}{12.52}\selectfont\氏名}
+    \fi
+  \else
+%修論
+%      \XYBC{\Xd}{\Yb}{\Xf}{\Ybb}{\fontsize{12.52}{12.52}\selectfont\令和年度}
+%      \XYBC{\Xf}{\Yb}{\Xn}{\Ybb}{\fontsize{12.52}{12.52}\selectfont\kinto{96.36pt}{\要旨表題}}
+      \XYBC{\Xd}{\Yb}{\Xn}{\Ybb}{\fontsize{12.52}{12.52}\selectfont\令和年度\hspace*{4zw}\要旨表題}
+      \XYBC{\Xss}{\Yc}{\Xmff}{\Yd}{\fontsize{12.52}{12.52}\selectfont\教育研究分野}%領域名
+%      \XYBC{\Xmj}{\Yc}{\Xmk}{\Yd}{\fontsize{12.52}{12.52}\selectfont\学籍番号}
+%      \XYBC{\Xmmm}{\Yc}{\Xtt}{\Yd}{\fontsize{12.52}{12.52}\selectfont\氏名}
+      \XYBC{\Xmj}{\Yc}{\Xtt}{\Yd}{\fontsize{12.52}{12.52}\selectfont\学籍番号\hspace*{3zw}\氏名}
+  \fi
+  \XYBC{\Xc}{\Yd}{\Xo}{\Ye}{\fontsize{15.13}{15.13}\selectfont\bfseries\gtfamily\論文題目}
+% 頁番号はフッタとして表示したのでここでは描画しない
+%   \XYBC{\Xh}{\Yh}{\XI}{\Yi}{\fontsize{12.52}{12.52}\selectfont\頁} 
+  \vskip\Yf
+  \vskip 1.0mm
+  \parindent=\parindentorg
+}
+
+%%%%
+%%%% 枠表示
+%%%%
+\def\framedisplaytitle{
+  \Brule{\Xd}{\Yb}{\Xf}{\Ybb}{0.1pt}%令和年度
+  \Brule{\Xf}{\Yb}{\Xn}{\Ybb}{0.1pt}%要旨表題
+\if卒業研究論文
+  \Brule{\Xss}{\Yc}{\Xee}{\Yd}{0.1pt}%教育研究分野
+  \Brule{\Xee}{\Yc}{\Xff}{\Yd}{0.1pt}%教育研究分野
+  \Brule{\Xj}{\Yc}{\Xk}{\Yd}{0.1pt}%学籍番号
+  \Brule{\Xmm}{\Yc}{\Xtt}{\Yd}{0.1pt}%氏名
+\else %修論
+  \Brule{\Xss}{\Yc}{\Xmff}{\Yd}{0.1pt}%領域名
+  \Brule{\Xmj}{\Yc}{\Xmk}{\Yd}{0.1pt}%学籍番号
+  \Brule{\Xmmm}{\Yc}{\Xtt}{\Yd}{0.1pt}%氏名
+\fi
+  \Brule{\Xc}{\Yd}{\Xo}{\Ye}{0.1pt}%論文題目
+  \Brule{\Xb}{\Yb}{\Xp}{\Yf}{0.1pt}%上外枠
+  \Brule{\Xb}{\Yf}{\Xp}{\Yg}{0.1pt}%下外枠
+}
+\def\framedisplaya{
+  \Brule{\Xb}{\Yb}{\Xp}{\Yf}{0.1pt}%上外枠
+  \Brule{\Xb}{\Yf}{\Xp}{\Yg}{0.1pt}%下外枠
+}
+\def\framedisplayb{
+  \Brule{\Xb}{\Yb}{\Xp}{\Yg}{0.1pt}%大枠
+}
+
+%%%%
+%%%% 定型枠の各座標データ
+%%%%
+\def\frameparama{
+  \Xb=  0.0mm   % 大枠始点(X)
+%
+  \Xd= 27.0mm   % 年度表示    枠始点(X)
+  \Xf= 76.0mm   % 卒業研究論文要旨 枠始点(X)
+  \Xn=136.0mm   % 卒業研究論文要旨 枠終点(X)
+%
+%  \Xss= 16.0mm  % 教育研究分野枠始点(X)
+  \Xss= 0.0mm  % 教育研究分野枠始点(X)
+%
+  \Xee= 46.0mm  % 研究室     枠始点(X)
+%  \Xff= 94.0mm  % 研究室     枠終点(X)
+  \Xff= 79.0mm  % 研究室     枠終点(X)
+%  \Xj=   96.0mm  % 学籍番号 枠始点(X)
+  \Xj=   87.0mm  % 学籍番号 枠始点(X)
+  \Xk=  116.0mm  % 学籍番号 枠終点(X)
+  \Xmm= 118.0mm  % 氏名       枠始点(X)
+%
+  \Xmff= 88.0mm  % 修士領域   枠終点(X)
+  \Xmj=  90.0mm  % 学籍番号(修士) 枠始点(X)
+  \Xmk= 110.0mm  % 学籍番号(修士) 枠終点(X)
+  \Xmmm=112.0mm  % 氏名(修士) 枠始点(X)
+%
+%  \Xtt=150.0mm  % 氏名 枠終点(X) (Xp-Xss)
+  \Xtt=166mm  % 氏名 枠終点(X) (Xp-Xss)
+%
+%  \Xc= 10.0mm   % 論文タイトル枠始点(X)
+%  \Xo=151.0mm   % 論文タイトル枠終点(X) (Xp-Xc)
+  \Xc= 5.0mm   % 論文タイトル枠始点(X)
+  \Xo=161.0mm   % 論文タイトル枠終点(X) (Xp-Xc)
+%
+  \Xp=166.0mm   % 大枠の終点(X)
+%%
+  \Yb=  0.0mm   % 大枠の始点(Y)
+%
+%  \Ybb= 6.0mm   % 年度行の終点(Y)
+%  \Yc=  7.0mm   % 教育研究分野行の始点(Y)
+%  \Yd= 14.0mm   % 論文タイトルの始点(Y)
+%  \Ye= 29.0mm   % 論文タイトルの終点(Y)
+%  \Yf= 30.0mm   % 上枠の終点(Y),本文の始点(Y)
+  \Ybb= 6.0mm   % 年度行の終点(Y)
+  \Yc=  6.0mm   % 教育研究分野行の始点(Y)
+  \Yd= 13.0mm   % 論文タイトルの始点(Y)
+  \Ye= 30.0mm   % 論文タイトルの終点(Y)
+  \Yf= 31.0mm   % 上枠の終点(Y),本文の始点(Y)
+%
+  \Yg=265.0mm   % 大枠の終点(Y)
+}
+%%%%
+%%%% 各種定義
+%%%%
+\newif\if卒業研究論文\卒業研究論文false
+\def\卒業研究論文{\卒業研究論文true}
+\newif\if修士論文\修士論文false
+\def\修士論文{\修士論文true}
+\newif\if学籍番号表示\学籍番号表示true
+\def\学籍番号表示なし{\学籍番号表示false}
+
+\def\令和年度{令和\年度{}年度}
+\def\要旨表題{
+  \if卒業研究論文
+    卒業研究論文要旨
+  \else
+    \if修士論文
+      修士論文要旨
+    \else
+      論文指定なし
+    \fi
+  \fi
+}
+% 頁文字列設定
+% 2018年度時点で修論要旨には頁番号を割り振らない
+% 学科によって微妙に異なるが通信準拠としている
+\def\頁{
+  \if卒業研究論文
+    \頁アルファベット{}-\頁発表順
+  \else
+    \if修士論文
+      ~ %空白文字で代替
+    \else
+      \頁アルファベット\頁発表順{}-\arabic{page}
+    \fi
+  \fi
+}
+
+\def\氏名{名前なし}
+\def\学籍番号{6100000}
+\def\教育研究分野{教育研究分野なし}
+\def\論文題目{論文題目}
+\def\頁アルファベット{Z}
+\def\頁発表順{99}
+\def\年度{99}
+
+%%%%
+%%%% \@startsection の再定義はアキの設定がおかしいので削除(2021.12)
+%%%% \section, \subsection の再定義
+%%%%
+
+\renewcommand{\section}{%
+    \if@slide\clearpage\fi
+    \@startsection{section}{1}{\z@}%
+    {.5\Cht}% 前アキ
+    {.2\Cht}% 後アキ
+    {\normalfont\large\headfont\raggedright}%本文12ptなら large を Large に
+}
+
+\renewcommand{\subsection}{%
+    \@startsection{subsection}{2}{\z@}%
+    {.2\Cht}% 前アキ
+    {.2\Cht}% 後アキ
+    {\normalfont\normalsize\headfont\raggedright} %本文12ptなら normalsize を large に
+}
+
+\renewcommand{\subsubsection}{%
+    \@startsection{subsubsection}{2}{\z@}%
+    {.1\Cht}% 前アキ
+    {.1\Cht}% 後アキ
+    {\normalfont\normalsize\headfont\raggedright} %本文12ptなら normalsize を large に
+}
+
+%
+% v2018.1: 修論要旨にも対応したはず。学科ごとの頁表記違いには非対応。
+% v2021.1: テンプレート部分のレイアウトと文字サイズをWord版と同じになるようにした。
+%

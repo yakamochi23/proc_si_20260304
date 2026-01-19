@@ -1,0 +1,46 @@
+%\documentclass[uplatex,a4paper,dvipdfmx,10pt,nomag*]{jsarticle}
+%\documentclass[submit,techrep,noauthor]{ipsj}
+\documentclass[submit,techrep,noauthor,dvipdfmx,uplatex]{ipsj}
+%platex -> dvipdfmx を想定している
+
+\input{preamble_ipsj.tex} % プリアンブルの読み込み
+
+\title{情報処理学会研究報告の準備方法\\
+（2018年10月29日版）}
+
+\etitle{How to Prepare Your Paper for IPSJ SIG Technical Report \\ (version 2018/10/29)}
+
+\affiliate{IPSJ}{情報処理学会\\
+IPSJ, Chiyoda, Tokyo 101--0062, Japan}
+
+
+\paffiliate{JU}{情報処理大学\\
+Johoshori Uniersity}
+
+\author{情報 太郎}{Joho Taro}{IPSJ}[joho.taro@ipsj.or.jp]
+\author{処理 花子}{Shori Hanako}{IPSJ}
+\author{学会 次郎}{Gakkai Jiro}{IPSJ,JU}[gakkai.jiro@ipsj.or.jp]
+
+%\pagestyle{empty}% 全ページのページ番号を非表示にする
+
+\begin{document}
+
+\subfile{sections/abstract.tex}
+
+\maketitle
+
+\subfile{sections/section1.tex}
+\subfile{sections/section2.tex}
+\subfile{sections/section3.tex}
+\subfile{sections/section4.tex}
+\subfile{sections/section5.tex}
+\subfile{sections/section6.tex}
+\subfile{sections/acknowledgment.tex}
+
+% ここから参考文献bibtexの設定
+%\bibliography{bibliography/bibsample,bibliography/ebibsample} % BibTeX ファイル名を指定（拡張子は不要）
+%\bibliography{bibliography/reference}
+\bibliography{bibliography/sample}
+\bibliographystyle{ipsjunsrt} % 文献スタイルを指定
+
+\end{document}

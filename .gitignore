@@ -1,0 +1,50 @@
+# 環境設定ファイル
+.env
+
+# LaTeX 中間ファイル
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.fls
+*.out
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.dvi
+*.nav
+*.snm
+
+# PDF出力以外の生成物
+*.ps
+*.idx
+*.ilg
+*.ind
+
+# バックアップファイル
+*~
+*.bak
+
+# 特定ディレクトリの除外
+workdir/intermediate/     # 中間ファイルが存在するディレクトリを無視
+workdir/backup/           # バックアップファイルが存在するディレクトリを無視
+
+# 最終生成物を無視しない
+!workdir/output/main.pdf         # 重要な最終生成物であるPDFを追跡
+
+# LaTeX関連以外のエディタやOS固有のファイル
+.DS_Store                 # macOS固有のメタデータファイル
+workdir/.DS_Store
+Thumbs.db                 # Windows固有のメタデータファイル
+
+# VSCode固有の設定ファイルを無視
+.vscode/*                 # プロジェクト固有のエディタ設定を無視
+!.vscode/settings.json
+!.vscode/ssmacro.json
+
+# Docker関連ファイル
+*.pid                     # 実行中のプロセスIDを追跡しない
+logs/                     # ログディレクトリ全体を無視
+tmp/                      # 一時ファイルディレクトリを無視
