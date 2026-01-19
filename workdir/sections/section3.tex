@@ -4,17 +4,13 @@
 \begin{document}
         
     \section{提案手法}
-    \label{sec:format}
-    
-        以下，情報処理学会論文誌ジャーナル用スタイルファイルを用いた論文フォーマットの指針について述べるので，
-        これに従って原稿を用意頂きたい．
-        \LaTeX を用いた一般的な文章作成技術については，
-        \cite{okumura, companion} 等を参考にされたい．
+
+        ここに提案手法の内容を書く．
             
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
     \ifSubfilesClassLoaded{
         \bibliography{bibliography/sample} % BibTeX ファイル名を指定（拡張子は不要）
-        \bibliographystyle{junsrt} % 文献スタイルを指定
+        \bibliographystyle{ipsjunsrt} % 文献スタイルを指定
     }{}
 
 \end{document}
