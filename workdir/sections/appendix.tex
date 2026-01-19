@@ -1,0 +1,17 @@
+\documentclass[../main.tex]{subfiles} % 親ファイルを参照
+
+
+\begin{document}
+        
+    \appendix
+    \section{付録1節の表題}
+
+        ここに付録の内容を書く．
+            
+    % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
+    \ifSubfilesClassLoaded{
+        \bibliography{bibliography/sample} % BibTeX ファイル名を指定（拡張子は不要）
+        \bibliographystyle{junsrt} % 文献スタイルを指定
+    }{}
+
+\end{document}
