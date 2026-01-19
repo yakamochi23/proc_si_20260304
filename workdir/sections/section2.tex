@@ -5,54 +5,13 @@
 
     \section{関連研究}
 
-
-        %2.1
-        \subsection{準備}
-
-            情報処理学会論文誌ジャーナルの\LaTeX スタイルファイルを含む論文執筆キットは
-                \begin{quote}
-                \small
-                \|http://www.ipsj.or.jp/jip/submit/style.html|
-                \end{quote}
-            からダウンロードすることができる．論文執筆キットは以下のファイルを含んで
-            いる．
-                \begin{enumerate}
-                \item \|ipsj.cls      |: 最終原稿用スタイルファイル
-                \item \|ipsjdraft.sty |: 投稿用スタイル（査読用）
-                \item \|ipsjpref.sty  |: 序文用スタイル
-                \item \|jsample.tex   |: 本稿のソースファイル
-                \item \|esample.tex   |: 英文サンプルのソースファイル
-                \item \|ipsjsort.bst  |: jBibTEX スタイル（著者名順）
-                \item \|ipsjunsrt.bst |: jBibTEX スタイル（出現順）
-                \item \|bibsample.bib |: 文献リストのサンプル
-                \item \|ebibsample.bib|: 英文文献リストのサンプル
-                \item \|tech-jsample.tex:| 研究報告（和文）のサンプル
-                \item \|tech-esample.tex:| 研究報告（英文）のサンプル
-                \end{enumerate}
-            実行環境としては\LaTeXe を前提としているので，準備されたい．
-
-
-
-
-
-
-
-        %2.2
-        \subsection{原稿の作成と投稿}
-
-            本稿に従って用意した投稿用原稿の\LaTeX ソースからpdfファイルを作成し，
-            Adobeのpdf readerで読めることを確認した後，
-                \begin{quote}
-                \small
-                \|https://ipsj1.i-product.biz/ipsjsig/**|
-                \end{quote}
-            (**部分は研究会の略称，DBS等)の研究会投稿システムにて，指示にし従い投稿する．
+        ここに関連研究の内容を書く．
 
 
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
     \ifSubfilesClassLoaded{
         \bibliography{bibliography/sample} % BibTeX ファイル名を指定（拡張子は不要）
-        \bibliographystyle{junsrt} % 文献スタイルを指定
+        \bibliographystyle{ipsjunsrt} % 文献スタイルを指定
     }{}
 
 \end{document}
