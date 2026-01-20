@@ -5,14 +5,26 @@
         
     %4
     \section{評価実験}
-        ここに評価実験の内容を書く．
-
+    
         \subsection{評価データセット}
-            ここに評価データセットの内容を書く．
+            本研究では，評価データセットとして，アイスホッケー選手を追跡対象とするVIP-HTDデータセット\cite{}を用いた．
 
         \subsection{評価指標}
-            ここに評価指標の内容を書く．
+            本研究では，評価指標として，MOTA(Multi-Object Tracking Accuracy)を用いた．
+                \begin{equation}
+                    MOTA = 1 - \frac{|FN| + |FP| + |IDs|}{|GT|}
+                    \label{eq:MOTA}
+                \end{equation}
+            ここで，$|FN|$は，
 
+            また，$IDF1$は，$IDP$と$IDR$の調和平均として式\ref{eq:IDF1}で定義される．
+                \begin{equation}
+                    IDF1 = \frac{2 \times IDP \times IDR}{IDP + IDR}
+                    \label{eq:IDF1}
+                \end{equation}
+            ここで，
+
+            
         \subsection{評価結果および考察}
             ここに評価結果の内容を書く．
 
