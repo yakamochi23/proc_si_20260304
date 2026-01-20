@@ -5,8 +5,22 @@
 
     \section{関連研究}
 
-        ここに関連研究の内容を書く．
+        MOTを解く代表的なパラダイムはTracking-by-Detectionである．このパラダイムでは，まず時間的に連続する各フレームから物体を検出し，その後検出された同一物体に対して同じ識別子(ID)を割り当てることで追跡を行う．この同一物体を時間的に結びつける操作をAssociationと呼ぶ．図\ref{}にAssociationの例を示す．
 
+        ある時刻において，トラックの集合を $\mathcal{X}=\{\mathbf{x}_i\}_{i=1}^{M}$，検出結果の集合を $\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$ とすると，Association は両集合の要素を重複なく1対1で対応付け，コスト$\mathcal{L}_\mathrm{match}(\cdot)$の総和を最小化する割当 $\hat{P}$ を求める問題に帰着する．これは式\ref{eq:Association}で表される線形割当問題として定式化され，ハンガリアン法\cite{<ref>} などにより解かれる．
+            \begin{equation}
+                \hat{P} = \underset{P \in \mathcal{P}_{M\times N}} {\operatorname{argmin}} \sum_{i=1}^{M}\sum_{j=1}^{N}\mathcal{L}_\mathrm{match}(\mathbf{x}_{i}, \hat{\mathbf{y}}_{j})
+                \label{eq:Association}
+            \end{equation}
+
+        SORT\cite{SORT2016}は，Tracking-by-Detectionに基づく代表的手法である．SORTでは，各トラックの状態としてバウンディングボックス（BBox）とその速度を扱い，カルマンフィルタ\cite{}により状態の予測・更新を行う．この際，時刻$t$の更新ステップでは，時刻$t-1$
+        IoU(Intersection over Union)を
+
+        DeepSORT\cite{}は，SORTのAssociationに
+
+        OC-SORTでは
+
+        PoseTrack
 
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
     \ifSubfilesClassLoaded{
