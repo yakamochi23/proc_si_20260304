@@ -5,23 +5,21 @@
 
     \section{関連研究}
 
-        MOTを解く代表的なパラダイムは``Tracking-by-Detection''である．このパラダイムでは，まず各フレームに登場する物体を検出し，その後既存のトラックと検出された物体を何かしらの指標に基づいて結びつける．これにより，異なるフレーム間で同じ物体には同じ識別子（ID）が割り当てられ，時間的な物体追跡が実現する．ここで，既存トラックと検出結果の間で同一物体を結びつける操作をAssociationと呼ぶ．Associationは，トラックの集合を $\hat{\mathcal{X}}=\{\hat{\mathbf{x}}_i\}_{i=1}^{M}$，検出結果の集合を $\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$ とすると，両集合の要素を重複なく1対1で対応付け，コスト$\mathcal{L}_\mathrm{match}(\cdot)$の総和を最小化するインデックス割当 $\hat{P}$ を求める問題に帰着する．これは，式\ref{eq:Association}のように線形割当問題として定式化され，ハンガリアン法\cite{Hungarian1955}などのアルゴリズムによって解かれる．
+        MOTを解く代表的なパラダイムは``Tracking-by-Detection''である．このパラダイムでは，まず各フレームに登場する物体を検出し，その後，既存のトラックと検出された物体を何かしらの指標に基づいて結びつける．これにより，異なるフレーム間で同じ物体には同じ識別子（ID）が割り当てられ，時間的な物体追跡が実現する．ここで，既存トラックと検出結果の間で同一物体を結びつける操作を関連付け（Association）と呼ぶ．Associationは，トラックの集合を $\hat{\mathcal{X}}=\{\hat{\mathbf{x}}_i\}_{i=1}^{M}$，検出結果の集合を $\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$ とすると，両集合の要素を重複なく1対1で対応付け，コスト$\mathcal{L}_\mathrm{match}(\cdot)$の総和を最小化するインデックス割当 $\hat{P}$ を求める問題に帰着する．これは，式\ref{eq:Association}のように線形割当問題として定式化され，ハンガリアン法\cite{Hungarian1955}などのアルゴリズムによって解かれる．
             \begin{equation}
                 \hat{P} = \underset{P \in \mathcal{P}_{M\times N}} {\operatorname{argmin}} \sum_{i=1}^{M}\sum_{j=1}^{N}\mathcal{L}_\mathrm{match}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j})
                 \label{eq:Association}
             \end{equation}
 
-        SORT\cite{SORT2016}はTracking-by-Detectionに基づく代表的な追跡手法である．SORTでは，物体の位置とその速度によって状態変数を記述し，カルマンフィルタ\cite{kalmanfilter1960}を用いて状態の予測・更新を行う．この際，ある時刻のAssociationのコストには，IoU(Intersection over Union)が使用される．IoUは2つの図形の重なり度合いを評価する指標であり，SORTでは一つ前の時刻から状態予測されたトラックと，現在の時刻で得られた検出結果の間で，Bouding-BoxのIoUを計算することで，物体の位置的類似性に基づいたAssociationを行う．SORTは，非常にシンプルは枠組みで物体追跡を行うことが可能である一方で，複雑に動く物体の追跡を苦手とする．これは，カルマンフィルタが前提とする状態空間が，状態の遷移に線形性を仮定していることが原因する．物体が不規則な動きをしたり，カメラモーションが加わると，物体の見かけの動きが複雑化し，線形運動を仮定した物体の状態予測は，予測トラックと検出結果の位置的類似性を低下させる．これにより，IoUに基づいたAssociationはID Switch（フレーム間で同一物体のIDが切り替わる現象）等の誤追跡が頻発するようになる．
+        SORT\cite{SORT2016}はTracking-by-Detectionに基づく代表的な追跡手法である．SORTでは，物体の位置とその速度によって状態変数を記述し，Kalman Filter\cite{kalmanfilter1960}を用いて状態の予測・更新を行う．この際，Associationのコストには，IoU(Intersection over Union)が用いられる．IoUは2つの図形の重なり度合いを評価する指標であり，SORTでは前時刻から状態予測されたトラックと現在の検出結果のBouding-Box間でIoUを計算し，物体の位置的類似性に基づいたAssociationを行う．SORTは，非常にシンプルは枠組みで物体追跡を実現する一方で，複雑に動く物体の追跡を苦手とする．これは，Kalman Filterが前提とする状態空間が，状態の遷移に線形性を仮定することに起因する．物体が不規則な動きを示したり，カメラモーションが加わると，物体の見かけの動きが複雑化し，線形運動を仮定した状態予測は，予測トラックと検出結果の位置的類似性を低下させる．その結果，IoUに基づくAssociationではID Switch（フレーム間で同一物体のIDが切り替わる現象）が発生しやすくなる．
 
         これに対して，複雑な物体の動きに対応するために，パーティクルフィルタやTransformerに基づいたより高精度な予測器を用いた追跡手法が提案されているが，いずれも学習に要するコストや，推論自体に時間がかかってしまうことから実用性に課題を抱えている．
 
-        DeepSORT\cite{DeepSORT2017}は，SORTの課題を克服することを目的に設計された追跡手法である．DeepSORTでは，AssociationのコストにCNN(Convolutional Neural Network)から抽出された外観特徴量のコサイン類似度を導入している．これにより，物体が複雑に運動したり，一旦フレームアウトした物体が再びフレームに登場しても，外観情報に基づいたAssociationによって，より頑健な追跡を実現している．しかし，
+        DeepSORT\cite{DeepSORT2017}は，SORTの課題を克服することを目的に設計された追跡手法である．DeepSORTでは，AssociationのコストにCNN(Convolutional Neural Network)から抽出された外観特徴量のコサイン類似度を導入している．これにより，物体の複雑な運動や，Occlusion（物体の一部または全体が遮蔽される現象）が生じても，外観特徴に基づいたAssociationによって，より頑健な追跡を実現している．しかし，共通のユニフォームを着用するスポーツシーンや，野生動物を追跡対象とするシナリオでは，各物体の外観が類似しやすいことから，外観類似性に基づいたAssociationはむしろ追跡精度低下の要因となることが報告されている\cite{DanceTrack2022,AnimalTrack2022}．
 
-        指摘されている\cite{}．
+        近年，外観情報を用いずに運動情報を強化することで追跡精度を向上させる手法も提案されている．例えばOC-SORT\cite{OC-SORT2023}は，．また，PoseTrack
 
-        OC-SORTは，
-
-        PoseTrack
+        本研究では，
 
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
     \ifSubfilesClassLoaded{
