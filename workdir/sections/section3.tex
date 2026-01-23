@@ -7,6 +7,14 @@
 
         本研究では，を提案する．具体手には，．さらに，することで必要としない．
 
+        ある時刻において，検出結果の集合$\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合$\mathcal{F}$を次のように定義する．
+            \begin{equation}
+                \mathcal{F} = \{ \mathbf{f}_{j} \}_{j=1}^{N} = \{GAP(F_{j})\}_{j=1}^{N}
+            \end{equation}
+        ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は$\hat{\mathbf{y}}_{j}$のBounding-Box（幅を$W$，高さを$H$とする）で切り取られるフレーム領域をTop-Down方式の姿勢推定モデルに入力際に得られる中間特徴量である．中間特徴量$F_{j}$は，期待される．
+        また，$\mathbf{f}_{j} = GAP(F_{j}) \in \mathbb{R}^{C}$は，$F_{j}$をGlobal Average Poolingによって変換した$C$次元のベクトルである．
+
+
         狙い．なぜいいのか？
             \begin{equation}
                 \mathcal{L}_{\mathrm{match}} (\hat{\mathbf{x}}, \hat{\mathbf{y}}) = C_{\mathrm{IoU}}(\hat{\mathbf{x}}, \hat{\mathbf{y}}) + \lambda_{a} C_{\mathrm{Ang}}(\hat{\mathbf{x}}, \hat{\mathbf{y}}) + \lambda_{p} C_{\mathrm{Pose}}(\hat{\mathbf{x}}, \hat{\mathbf{y}})
