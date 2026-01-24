@@ -7,26 +7,48 @@
 
         本研究では，を提案する．具体手には，．さらに，することで必要としない．
 
-        ある時刻において，検出結果の集合$\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合$\mathcal{F}$を次のように定義する．
-            \begin{equation}
-                \mathcal{F} = \{ \mathbf{f}_{j} \}_{j=1}^{N} = \{GAP(F_{j})\}_{j=1}^{N}
-            \end{equation}
-        ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は$\hat{\mathbf{y}}_{j}$のBounding-Box（幅を$W$，高さを$H$とする）で切り取られるフレーム領域をTop-Down方式の姿勢推定モデルに入力した際に得られる中間特徴量である．中間特徴量$F_{j}$は，期待される．
-        また，$\mathbf{f}_{j} = GAP(F_{j}) \in \mathbb{R}^{C}$は，$F_{j}$をGlobal Average Poolingによって変換した$C$次元のベクトルである．
-
-
         狙い．なぜいいのか？
-            \begin{equation}
-                \mathcal{L}_{\mathrm{match}} (\hat{\mathbf{x}}, \hat{\mathbf{y}}) = C_{\mathrm{IoU}}(\hat{\mathbf{x}}, \hat{\mathbf{y}}) + \lambda_{a} C_{\mathrm{Ang}}(\hat{\mathbf{x}}, \hat{\mathbf{y}}) + \lambda_{p} C_{\mathrm{Pose}}(\hat{\mathbf{x}}, \hat{\mathbf{y}})
-            \end{equation}
-        ここで，
-            \begin{equation}
-                C_{\mathrm{Pose}} (\hat{\mathbf{x}}, \hat{\mathbf{y}}) = - \dfrac{\mathbf{f}_{i} \cdot \mathbf{f}_{j}}{\mathbf{f}_{i} \mathbf{f}_{j} }
-                \label{eq:C_pose}
-            \end{equation}
-        ここで，$f_{i} \in \mathbb{R}^{d}$
 
-        更新方法
+        OC-SORTの上に設計することをの述べる．
+
+        全体図を示す．
+
+        \subsection{姿勢特徴量の抽出}
+            ある時刻において，検出結果の集合$\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合を$\mathcal{F} = \{\mathbf{f}_{j}\}_{j=1}^{N}$とすると，検出結果$\hat{\mathbf{y}}_{j}$の姿勢特徴量$\mathbf{f}_{j}$は，次のように定義される．
+                \begin{equation}
+                    \mathbf{f}_{j} = GAP(F_{j}) \in \mathbb{R}^{C} 
+                \end{equation}
+            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は$\hat{\mathbf{y}}_{j}$のBounding-Boxで切り取られるフレーム領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，を捉えており，が期待される．
+            また，$\mathbf{f}_{j} \in \mathbb{R}^{C}$は，$F_{j}$をGlobal Average Poolingによって変換した$C$次元のベクトルである．
+
+        \subsection{姿勢特徴を考慮したAssociation}
+            ある時刻において，トラックの集合$\mathcal{X} = \{\mathbf{x}_{j}\}_{i=1}^{M}$が保持する姿勢情報の集合を$\mathcal{G} = \{\mathbf{g}_{i}, c_{j}\}_{i=1}^{M}$とする．ここで，$\mathbf{g}_{i} \in \mathbb{R}^{C}$はトラック$\mathbf{x}_{i}$が持つ姿勢特徴量であり，直近のAssociationの結果に応じて初期化・更新されたものである．また，$c_{i}$はトラック$\mathbf{x}_{i}$が持つ姿勢特徴量$\mathbf{g}_{i}$の信頼値であり，その値に応じて最終的に$\mathbf{g}_{i}$をどの程度Associationに寄与させるかを調整するために導入する．このとき，本研究でAssociationに導入する姿勢コスト関数$C_{\mathrm{pose}}(\cdot)$は式\ref{eq:cost_pose}で定式化される．
+                \begin{equation}
+                    C_{\mathrm{pose}}(\mathbf{x}_{i}, \hat{\mathbf{y}_{j}}) = \dfrac{\mathbf{g}_{i}^{\mathrm{T}} \mathbf{f}_{j}}{{\left\Vert \mathbf{g}_{i} \right\Vert}_{2}\,{\left\Vert \mathbf{f}_{j} \right\Vert}_{2}} \in [0, 1]
+                    \label{eq:cost_pose}
+                \end{equation}
+            式\ref{eq:cost_pose}は$\mathbf{g}_{i}$と$\mathbf{f}_{j}$のはコサイン類似度を表し，その値が$1$に近づくほどトラック$\mathbf{x}_{i}$と検出結果$\hat{\mathbf{y}_{j}}$の姿勢類似性が高いことを意味する．実装では，ハンガリアン法によってコストの総和を最小化する割当問題を解くため，$C_{\mathrm{pose}} \leftarrow - C_{\mathrm{pose}}$に変換して扱う．
+            最終的にAssociationに利用するコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$は式\ref{eq:final_cost}で与える．
+                \begin{equation}
+                    \mathcal{L}_{\mathrm{match}} (\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j}) = C_{\mathrm{ocsort}}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j}) + \lambda_{p} c_{i} C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j})
+                    \label{eq:final_cost}
+                \end{equation}
+            ここで，$C_{\mathrm{ocsort}}(\cdot)$はOC-SORTで提案されたコスト関数であり，．
+
+        \subsection{姿勢情報の更新}
+            式\ref{eq:final_cost}のコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$を用いたAssociationにより，トラック$\mathbf{x}_{i}$と検出結果$\mathbf{y}_{j}$が対応付けられたとする．このとき，$\mathbf{x}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{i}, c_{k} \}$は式\ref{eq:update_pose_info}によって更新させる．
+                \begin{equation}
+                    \mathbf{g}_{i} \leftarrow \mathbf{f}_{j}, \quad c_{i} \leftarrow 1.0
+                    \label{eq:update_pose_info}
+                \end{equation}
+            これは，．一方，どの検出結果にも対応付けられなかったトラック$\mathbf{x}_{k}$に関しては，姿勢特徴量$\mathbf{g}_{k}$の更新は行わずに，姿勢信頼度$c_{k}$を式\ref{eq:decay_pose_conf}によって減衰させる．
+                \begin{equation}
+                    \mathbf{g}_{k} \leftarrow \mathbf{g}_{k}, \quad c_{k} \leftarrow \1_{ \{\gamma c_{k} > \tau\} } \gamma c_{k}
+                    \label{eq:decay_pose_conf}
+                \end{equation}
+            ここで，$\gamma \in (0, 1]$は減衰率であり，ハイパーパラメータとして設定される．また，$\1_{ \{\gamma c_{k} > \tau\} }$は減衰値$\gamma c_{k}$が閾値$\tau$以上の場合に$1$，それ以外の場合に$0$を出力する指示関数である．式\ref{eq:decay_pose_conf}によって，連続して検出結果に関連付けられなかったトラックの信頼度が減衰する様子を図\ref{}に示す．
+            
+            これにより，
 
 
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
