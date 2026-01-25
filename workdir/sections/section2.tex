@@ -5,7 +5,7 @@
 
     \section{関連研究}
 
-        MOTを解く代表的なパラダイムは``Tracking-by-Detection''である．このパラダイムでは，まず各フレームに登場する物体を検出し，その後，既存のトラックと検出された物体を何かしらの指標に基づいて結びつける．これにより，異なるフレーム間で同じ物体には同じ識別子（ID）が割り当てられ，時間的な物体追跡が実現する．ここで，既存トラックと検出結果の間で同一物体を結びつける操作を関連付け（Association）と呼ぶ．Associationは，トラックの集合を $\hat{\mathcal{X}}=\{\hat{\mathbf{x}}_i\}_{i=1}^{M}$，検出結果の集合を $\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$ とすると，両集合の要素を重複なく1対1で対応付け，コスト$\mathcal{L}_\mathrm{match}(\cdot)$の総和を最小化するインデックス割当 $\hat{P}$ を求める問題に帰着する．これは，式\ref{eq:Association}のように線形割当問題として定式化され，ハンガリアン法\cite{Hungarian1955}などのアルゴリズムによって解かれる．
+        MOTを解く代表的なパラダイムは``Tracking-by-Detection''である．このパラダイムでは，まず各フレームに登場する物体を検出し，その後，既存のトラックと検出結果を何らかの指標に基づいて対応付ける．これにより，異なるフレーム間で同じ物体には同じ識別子（ID）が割り当てられ，時間的な物体追跡が実現する．ここで，既存トラックと検出結果の間で同一物体を対応付ける操作を関連付け（Association）と呼ぶ．Associationは，トラックの集合を $\hat{\mathcal{X}}=\{\hat{\mathbf{x}}_i\}_{i=1}^{M}$，検出結果の集合を $\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$ とすると，両集合の要素を重複なく1対1で対応付け，コスト関数$\mathcal{L}_\mathrm{match}(\cdot)$の総和を最小化するインデックス割当 $\hat{P}$ を求める問題に帰着する．これは，式\ref{eq:Association}のように線形割当問題として定式化され，ハンガリアン法\cite{Hungarian1955}などのアルゴリズムによって解かれる．
             \begin{equation}
                 \hat{P} = \underset{P \in \mathcal{P}_{M\times N}} {\operatorname{argmin}} \sum_{i=1}^{M}\sum_{j=1}^{N}\mathcal{L}_\mathrm{match}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j})
                 \label{eq:Association}
