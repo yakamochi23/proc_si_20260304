@@ -12,7 +12,7 @@
         OC-SORTの上に設計することをの述べる．
 
         全体図を示す．
-        \subsection{OC-SORT}
+        \subsection{OC-SORT with Byte Algorithm}
             あいうえお．
 
         \subsection{姿勢特徴量の抽出}
@@ -24,28 +24,28 @@
             また，$\mathbf{f}_{j} \in \mathbb{R}^{C}$は，$F_{j}$にGAP(Global Average Pooling)を適用し，$C$次元のベクトルに変換することで得られる．
 
         \subsection{姿勢特徴を考慮したAssociation}
-            ある時刻において，トラックの集合$\mathcal{X} = \{\mathbf{x}_{i}\}_{i=1}^{M}$が保持する姿勢情報の集合を$\mathcal{G} = \{\mathbf{g}_{i}, c_{i}\}_{i=1}^{M}$とする．ここで，$\mathbf{g}_{i} \in \mathbb{R}^{C}$はトラック$\mathbf{x}_{i}$が持つ姿勢特徴量であり，$c_{i} \in [0,1]$はその姿勢信頼度を表す．集合$\mathcal{G}$は，Associationの結果に応じて時間的に更新される（後述）．
+            ある時刻において，トラックの集合$\hat{\mathcal{X}} = \{\hat{\mathbf{x}}_{i}\}_{i=1}^{M}$が保持する姿勢情報の集合を$\mathcal{G} = \{\mathbf{g}_{i}, c_{i}\}_{i=1}^{M}$とする．ここで，$\mathbf{g}_{i} \in \mathbb{R}^{C}$はトラック$\hat{\mathbf{x}}_{i}$が持つ姿勢特徴量であり，$c_{i} \in [0,1]$はその姿勢信頼度を表す．集合$\mathcal{G}$は，Associationの結果に応じて時間的に更新される（後述）．
 
             本研究では，姿勢特徴を考慮したAssociationを行うにあたり，トラックと検出結果の姿勢類似度を式\ref{eq:cost_pose}で定まる姿勢コスト関数$C_{\mathrm{pose}}(\cdot)$を用いて求める．
                 \begin{equation}
                     C_{\mathrm{pose}}(\mathbf{x}_{i}, \hat{\mathbf{y}}_{j}) = \dfrac{\mathbf{g}_{i}^{\mathrm{T}} \mathbf{f}_{j}}{{\left\Vert \mathbf{g}_{i} \right\Vert}_{2}\,{\left\Vert \mathbf{f}_{j} \right\Vert}_{2}} \in [0, 1]
                     \label{eq:cost_pose}
                 \end{equation}
-            式\ref{eq:cost_pose}は$\mathbf{g}_{i}$と$\mathbf{f}_{j}$のはコサイン類似度を表し，その値が$1$に近づくほどトラック$\mathbf{x}_{i}$と検出結果$\hat{\mathbf{y}}_{j}$の姿勢類似性が高いことを意味する．
+            式\ref{eq:cost_pose}は$\mathbf{g}_{i}$と$\mathbf{f}_{j}$のはコサイン類似度を表し，その値が$1$に近づくほどトラック$\hat{\mathbf{x}_{i}}$と検出結果$\hat{\mathbf{y}}_{j}$の姿勢類似性が高いことを意味する．
             最終的なコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$は，OC-SORTの既存コスト関数$C_{\mathrm{ocsort}}(\cdot)$に姿勢コスト関数$C_{\mathrm{pose}}(\cdot)$を加えて式\ref{eq:final_cost}で与える．
                 \begin{equation}
                     \mathcal{L}_{\mathrm{match}} (\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j}) = C_{\mathrm{ocsort}}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j}) + \lambda_{p} c_{i} C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j})
                     \label{eq:final_cost}
                 \end{equation}
-            ここで，$C_{\mathrm{ocsort}}(\cdot)$はIoUと速度方向の類似性に基づくコスト関数であり，$\lambda_{p}$は姿勢項の寄与を制御する重みである．また，$c_{i}$を掛けることで，トラック$\mathbf{x}_{i}$が信頼度の低い姿勢特徴量$\mathbf{g}_{i}$を持つ場合には，$\mathbf{g}_{i}$から算出される姿勢項の影響を抑える狙いがある．実装上は，$\mathcal{L}_{\mathrm{match}}(\cdot) \leftarrow - \mathcal{L}_{\mathrm{match}}(\cdot)$として，ハンガリアン法によって式\ref{eq:Association}で表される総コストの最小化問題を解く．
+            ここで，$C_{\mathrm{ocsort}}(\cdot)$はIoUと速度方向の類似性に基づくコスト関数であり，$\lambda_{p}$は姿勢項の寄与を制御する重みである．また，$c_{i}$を掛けることで，トラック$\hat{\mathbf{x}}_{i}$が信頼度の低い姿勢特徴量$\mathbf{g}_{i}$を持つ場合には，$\mathbf{g}_{i}$から算出される姿勢項の影響を抑える狙いがある．実装上は，$\mathcal{L}_{\mathrm{match}}(\cdot) \leftarrow - \mathcal{L}_{\mathrm{match}}(\cdot)$として，ハンガリアン法によって式\ref{eq:Association}で表される総コストの最小化問題を解く．
 
         \subsection{姿勢情報の更新}
-            ある時刻において，式\ref{eq:final_cost}のコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$を用いたAssociationの結果，トラック$\mathbf{x}_{i}$と検出結果$\mathbf{y}_{j}$が対応付けられたとする．このとき，$\mathbf{x}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{i}, c_{i} \}$は次のように更新する．
+            ある時刻において，式\ref{eq:final_cost}のコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$を用いたAssociationの結果，トラック$\hat{\mathbf{x}}_{i}$と検出結果$\hat{\mathbf{y}}_{j}$が対応付けられたとする．このとき，$\hat{\mathbf{x}}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{i}, c_{i} \}$は次のように更新する．
                 \begin{equation}
                     \mathbf{g}_{i} \leftarrow \mathbf{f}_{j}, \quad c_{i} \leftarrow 1.0
                     \label{eq:update_pose_info}
                 \end{equation}
-            これは，最新の検出結果が持つ姿勢特徴量を対応付けられたトラックが引継ぎ，信頼度を最大値に戻す操作である．一方，どの検出結果にも対応付けられなかったトラック$\mathbf{x}_{k}$については，保持している姿勢特徴量$\mathbf{g}_{k}$を維持しつつ，姿勢信頼度$c_{k}$のみを時間減衰させる．
+            これは，最新の検出結果が持つ姿勢特徴量を対応付けられたトラックが引継ぎ，信頼度を最大値に戻す操作である．一方，どの検出結果にも対応付けられなかったトラック$\hat{\mathbf{x}}_{k}$については，保持している姿勢特徴量$\mathbf{g}_{k}$を維持しつつ，姿勢信頼度$c_{k}$のみを時間減衰させる．
                 \begin{equation}
                     \mathbf{g}_{k} \leftarrow \mathbf{g}_{k}, \quad c_{k} \leftarrow \1_{ \{\gamma c_{k} > \tau\} } \gamma c_{k}
                     \label{eq:decay_pose_conf}
