@@ -12,6 +12,8 @@
         OC-SORTの上に設計することをの述べる．
 
         全体図を示す．
+        \subsection{OC-SORT}
+            あいうえお．
 
         \subsection{姿勢特徴量の抽出}
             ある時刻において，検出結果の集合$\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合を$\mathcal{F} = \{\mathbf{f}_{j}\}_{j=1}^{N}$とすると，検出結果$\hat{\mathbf{y}}_{j}$の姿勢特徴量$\mathbf{f}_{j}$は，次のように定義される．
@@ -36,12 +38,14 @@
             ここで，$C_{\mathrm{ocsort}}(\cdot)$はOC-SORTで提案されたコスト関数であり，．
 
         \subsection{姿勢情報の更新}
-            式\ref{eq:final_cost}のコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$を用いたAssociationにより，トラック$\mathbf{x}_{i}$と検出結果$\mathbf{y}_{j}$が対応付けられたとする．このとき，$\mathbf{x}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{i}, c_{k} \}$は式\ref{eq:update_pose_info}によって更新させる．
+            式\ref{eq:final_cost}のコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$を用いたAssociationにより，トラック$\mathbf{x}_{i}$と検出結果$\mathbf{y}_{j}$が対応付けられたとする．このとき，$\mathbf{x}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{i}, c_{i} \}$は式\ref{eq:update_pose_info}によって更新させる．
                 \begin{equation}
                     \mathbf{g}_{i} \leftarrow \mathbf{f}_{j}, \quad c_{i} \leftarrow 1.0
                     \label{eq:update_pose_info}
                 \end{equation}
-            これは，．一方，どの検出結果にも対応付けられなかったトラック$\mathbf{x}_{k}$に関しては，姿勢特徴量$\mathbf{g}_{k}$の更新は行わずに，姿勢信頼度$c_{k}$を式\ref{eq:decay_pose_conf}によって減衰させる．
+            これは，．一方，どの検出結果にも対応付けられなかったトラック$\mathbf{x}_{k}$に関しては，$\mathbf{x}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{k}, c_{k} \}$は式\ref{eq:decay_pose_conf}によって更新させる．
+
+            姿勢特徴量$\mathbf{g}_{k}$の更新は行わずに，姿勢信頼度$c_{k}$を式\ref{eq:decay_pose_conf}によって減衰させる．
                 \begin{equation}
                     \mathbf{g}_{k} \leftarrow \mathbf{g}_{k}, \quad c_{k} \leftarrow \1_{ \{\gamma c_{k} > \tau\} } \gamma c_{k}
                     \label{eq:decay_pose_conf}
