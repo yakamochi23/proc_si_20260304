@@ -50,7 +50,7 @@
                     \mathbf{g}_{k} \leftarrow \mathbf{g}_{k}, \quad c_{k} \leftarrow \1_{ \{\gamma c_{k} > \tau\} } \gamma c_{k}
                     \label{eq:decay_pose_conf}
                 \end{equation}
-            ここで，$\gamma \in (0, 1]$は減衰率，$\tau$は姿勢信頼度の閾値であり，$\1_{ \{\gamma c_{k} > \tau\} }$は減衰値$\gamma c_{k}$が閾値$\tau$以上の場合に$1$，それ以外の場合に$0$を出力する指示関数である．式\ref{eq:decay_pose_conf}による信頼度の減衰挙動を図\ref{fig:pose_conf_decay}に示す．式\ref{eq:update_pose_info},\ref{eq:decay_pose_conf}に基づいて集合$\mathcal{G}$を更新することで，時間的に物体の姿勢が変化する中で，長期間対応付けられていないトラックの姿勢情報がAssociationに与える影響を抑制し，追跡制度の低下を防ぐ狙いがある．      
+            ここで，$\gamma \in (0, 1]$は減衰率，$\tau$は姿勢信頼度の閾値であり，$\1_{ \{\gamma c_{k} > \tau\} }$は減衰値$\gamma c_{k}$が閾値$\tau$以上の場合に$1$，それ以外の場合に$0$を出力する指示関数である．式\ref{eq:decay_pose_conf}による信頼度の減衰挙動を図\ref{fig:pose_conf_decay}に示す．式\ref{eq:update_pose_info},\ref{eq:decay_pose_conf}に基づいて集合$\mathcal{G}$を更新することで，時間的に物体の姿勢が変化する中で，長期間対応付けられていないトラックの姿勢情報がAssociationに与える影響を抑制し，追跡精度の低下を防ぐ狙いがある．      
 
 
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
