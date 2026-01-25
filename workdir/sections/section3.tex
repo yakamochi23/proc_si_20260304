@@ -16,11 +16,11 @@
             あいうえお．
 
         \subsection{姿勢特徴量の抽出}
-            ある時刻において，検出結果の集合$\hat{\mathcal{Y}}=\{\hat{\mathbf{y}}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合を$\mathcal{F} = \{\mathbf{f}_{j}\}_{j=1}^{N}$とすると，検出結果$\hat{\mathbf{y}}_{j}$の姿勢特徴量$\mathbf{f}_{j}$は，次のように定義される．
+            ある時刻において，検出結果の集合$\mathcal{Y}=\{\mathbf{y}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合を$\mathcal{F} = \{\mathbf{f}_{j}\}_{j=1}^{N}$とすると，検出結果$\mathbf{y}_{j}$の姿勢特徴量$\mathbf{f}_{j}$は，次のように定義される．
                 \begin{equation}
                     \mathbf{f}_{j} = \mathrm{GAP}(F_{j}) \in \mathbb{R}^{C} 
                 \end{equation}
-            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\hat{\mathbf{y}}_{j}$のBounding-Boxで切り取られるフレーム領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\hat{\mathbf{y}}_{j}$の局所的な間接配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオでは，比較的頑健な物体表現が得られることが期待される．
+            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\mathbf{y}_{j}$のBounding-Boxで切り取られるフレーム領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\mathbf{y}_{j}$の局所的な間接配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオでは，比較的頑健な物体表現が得られることが期待される．
             また，$\mathbf{f}_{j} \in \mathbb{R}^{C}$は，$F_{j}$にGAP(Global Average Pooling)を適用し，$C$次元のベクトルに変換することで得られる．
 
         \subsection{姿勢特徴を考慮したAssociation}
@@ -28,19 +28,19 @@
 
             本研究では，姿勢特徴を考慮したAssociationを行うにあたり，トラックと検出結果の姿勢類似度を式\ref{eq:cost_pose}で定まる姿勢コスト関数$C_{\mathrm{pose}}(\cdot)$を用いて求める．
                 \begin{equation}
-                    C_{\mathrm{pose}}(\mathbf{x}_{i}, \hat{\mathbf{y}}_{j}) = \dfrac{\mathbf{g}_{i}^{\mathrm{T}} \mathbf{f}_{j}}{{\left\Vert \mathbf{g}_{i} \right\Vert}_{2}\,{\left\Vert \mathbf{f}_{j} \right\Vert}_{2}} \in [0, 1]
+                    C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \mathbf{y}_{j}) = \dfrac{\mathbf{g}_{i}^{\mathrm{T}} \mathbf{f}_{j}}{{\left\Vert \mathbf{g}_{i} \right\Vert}_{2}\,{\left\Vert \mathbf{f}_{j} \right\Vert}_{2}} \in [0, 1]
                     \label{eq:cost_pose}
                 \end{equation}
-            式\ref{eq:cost_pose}は$\mathbf{g}_{i}$と$\mathbf{f}_{j}$のはコサイン類似度を表し，その値が$1$に近づくほどトラック$\hat{\mathbf{x}_{i}}$と検出結果$\hat{\mathbf{y}}_{j}$の姿勢類似性が高いことを意味する．
+            式\ref{eq:cost_pose}は$\mathbf{g}_{i}$と$\mathbf{f}_{j}$のはコサイン類似度を表し，その値が$1$に近づくほどトラック$\hat{\mathbf{x}_{i}}$と検出結果$\mathbf{y}_{j}$の姿勢類似性が高いことを意味する．
             最終的なコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$は，OC-SORTの既存コスト関数$C_{\mathrm{ocsort}}(\cdot)$に姿勢コスト関数$C_{\mathrm{pose}}(\cdot)$を加えて式\ref{eq:final_cost}で与える．
                 \begin{equation}
-                    \mathcal{L}_{\mathrm{match}} (\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j}) = C_{\mathrm{ocsort}}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j}) + \lambda_{p} c_{i} C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \hat{\mathbf{y}}_{j})
+                    \mathcal{L}_{\mathrm{match}} (\hat{\mathbf{x}}_{i}, \mathbf{y}_{j}) = C_{\mathrm{ocsort}}(\hat{\mathbf{x}}_{i}, \mathbf{y}_{j}) + \lambda_{p} c_{i} C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \mathbf{y}_{j})
                     \label{eq:final_cost}
                 \end{equation}
             ここで，$C_{\mathrm{ocsort}}(\cdot)$はIoUと速度方向の類似性に基づくコスト関数であり，$\lambda_{p}$は姿勢項の寄与を制御する重みである．また，$c_{i}$を掛けることで，トラック$\hat{\mathbf{x}}_{i}$が信頼度の低い姿勢特徴量$\mathbf{g}_{i}$を持つ場合には，$\mathbf{g}_{i}$から算出される姿勢項の影響を抑える狙いがある．実装上は，$\mathcal{L}_{\mathrm{match}}(\cdot) \leftarrow - \mathcal{L}_{\mathrm{match}}(\cdot)$として，ハンガリアン法によって式\ref{eq:Association}で表される総コストの最小化問題を解く．
 
         \subsection{姿勢情報の更新}
-            ある時刻において，式\ref{eq:final_cost}のコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$を用いたAssociationの結果，トラック$\hat{\mathbf{x}}_{i}$と検出結果$\hat{\mathbf{y}}_{j}$が対応付けられたとする．このとき，$\hat{\mathbf{x}}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{i}, c_{i} \}$は次のように更新する．
+            ある時刻において，式\ref{eq:final_cost}のコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$を用いたAssociationの結果，トラック$\hat{\mathbf{x}}_{i}$と検出結果$\mathbf{y}_{j}$が対応付けられたとする．このとき，$\hat{\mathbf{x}}_{i}$が保持する姿勢情報$\{ \mathbf{g}_{i}, c_{i} \}$は次のように更新する．
                 \begin{equation}
                     \mathbf{g}_{i} \leftarrow \mathbf{f}_{j}, \quad c_{i} \leftarrow 1.0
                     \label{eq:update_pose_info}
