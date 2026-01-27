@@ -20,7 +20,7 @@
                 \begin{equation}
                     \mathbf{f}_{j} = \mathrm{GAP}(F_{j}) \in \mathbb{R}^{C} 
                 \end{equation}
-            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\mathbf{y}_{j}$のBounding-Boxで切り取られるフレーム領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\mathbf{y}_{j}$の局所的な間接配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオでは，比較的頑健な物体表現が得られることが期待される．
+            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\mathbf{y}_{j}$のBBoxに対応する画像領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\mathbf{y}_{j}$の局所的な間接配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオでは，比較的頑健な物体表現が得られることが期待される．
             また，$\mathbf{f}_{j} \in \mathbb{R}^{C}$は，$F_{j}$にGAP(Global Average Pooling)を適用し，$C$次元のベクトルに変換することで得られる．
 
         \subsection{姿勢特徴を考慮したAssociation}
