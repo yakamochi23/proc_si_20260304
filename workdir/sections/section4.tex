@@ -6,20 +6,11 @@
     %4
     \section{評価実験}
     
-        \subsection{述べる内容}
-            ここで実験条件を述べる．
-                \begin{itemize}
-                    \item HR-Net，取り出す層，次元数
-                    \item 各種パラメータの値
-                \end{itemize}
-
-
         \subsection{実験条件}
-            本研究では，評価実験用のデータセットとしてウォータールー大学のグループが公開しているVIP-HTDデータセット\cite{}を用いた．VIP-HTDデータセットは，試合中のアイスホッケー選手を追跡対象とするMOTデータセットであり，合計22個（訓練:14個/評価:1個/テスト:7個）のシーケンス，合計73,890枚（訓練:45,396枚/評価:2,981枚/テスト:25,513枚）のフレームで構成されている．
 
-            物体追跡に使用する検出器にはYOLOX\cite{YOLOX2021}，姿勢推定器にはHRNet\cite{HRNet2019}を使用した．
-            ここで，YOLOXにはMS COCOデータセットで事前学習した重みに対してVIP-HTDデータセットの訓練データで学習を行うことで得た重みを評価実験に使用する．
-            一方，HRNetはMS COCOで事前学習した重みをそのまま追跡に利用する．
+            本研究では，VIP-HTD(Vision and Image Processing Hokey Tracking Dataset)\cite{}を用いて，従来手法であるOC-SORTと提案手法の比較評価を行った．この際，OC-SORTと提案手法の両方にByteTrack\cite{ByteTrack2022}で提案された検出信頼度に基づいた二段階のAssociationを導入した．これは，スポーツシーンにおいてはカメラモーションによるMotion Blurが頻発し，検出信頼度の低い検出結果が得られる傾向にあることを考慮してのことである．VIP-HTDは，試合中のアイスホッケー選手を追跡対象とするMOTデータセットであり，計22個（訓練:14個/評価:1個/テスト:7個）のシーケンス，計73,890枚（訓練:45,396枚/評価:2,981枚/テスト:25,513枚）のフレームで構成されている．
+
+            物体検出器には，VIP-HTDの訓練データで事前学習済みのYOLOX\cite{YOLOX2021}を使用した．物体追跡では，YOLOXが出力した検出結果の内，検出信頼値$c_{d} \in [0,1]$が$0.6 \le c_{d} \le 1.0$のものを第一段階のAssociationに，$0.1 < c_{d} < 0.6$のものを第二段階のAssociationに利用した．また，姿勢推定器にはMS COCOで事前学習済みのHRNet(High-Resolution Network)\cite{HRNet2019}を用い，物体追跡ではHRNetのlayer4が出力する特徴マップから得られた姿勢特徴量$\mathbf{f} \in \mathbb{R}^{48}$をAssociationに利用した．
 
             評価実験では，$\mathrm{MOTA}$(Multi-Object Tracking Accuracy)\cite{MOTA}，$\mathrm{IDF1}$(ID F1-score)\cite{IDF1}を評価指標として用いた．
             $\mathrm{MOTA}$は$|\mathrm{TP}|,|\mathrm{FP}|,|\mathrm{FN}|,|\mathrm{IDs}|$から算出されるMOTの総合評価指標であり，追跡精度を物体のBBox単位で評価する．ここで$|\mathrm{TP}|$は推定BBoxと真値の一致数，$|\mathrm{FP}|$は真値と一致しなかった推定BBoxの数，$|\mathrm{FP}|$は推定BBoxに一致しなかった真値の数，$|\mathrm{IDs}|$はID Switchの総発生回数を表す．
