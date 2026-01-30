@@ -5,15 +5,16 @@
         
     \section{提案手法}
 
-        本研究では，を提案する．具体手には，．さらに，することで必要としない．
+        
+        スポーツシーンでは，選手が急な加減速や方向転換を繰り返すため運動の不規則性が高く，さらにユニフォームの共通性により外観の識別性も低い．このため，IoUや外観特徴に依存した従来のAssociationには限界がある．一方，各選手は試合中に多様な姿勢をとり，隣接フレーム間では姿勢の連続性が保たれやすいことから，姿勢情報は有効な識別手掛かりとなり得る．しかし，keypointに基づくコスト関数は，Occlusion等に起因する欠落・誤推定の影響を受けやすく，Associationが不安定になる．
+        そこで本研究では，keypointの完全性に過度に依存しない表現として，姿勢推定器の中間層から得られる特徴量を用い，姿勢の類似性を定式化してAssociationに組み込む手法を提案する．提案手法のパイプラインを図\ref{fig:method_overview}に示す．
+            \begin{figure*}[tb]
+                \centering
+                \includegraphics[width=\linewidth]{figures/section3/method_overview.png}
+                \caption{提案する姿勢情報に基づいたAssociationの概要．検出結果$\{\mathbf{y}_{j}\}_{j=1}^{M}$に対して姿勢推定器を用いた特徴抽出を独立に行い，姿勢特徴量$\{\mathbf{f}_{j}\}_{j=1}^{M}$を得る．その後，コスト関数$C_{\mathrm{pose}}(\cdot)$によって算出したトラックと検出結果の類似性をAssociationに利用する．}
+                \label{fig:method_overview}
+            \end{figure*}
 
-        狙い．なぜいいのか？
-
-        OC-SORTの上に設計することをの述べる．
-
-        全体図を示す．
-        \subsection{OC-SORT with Byte Algorithm}
-            あいうえお．
 
         \subsection{姿勢特徴量の抽出}
             ある時刻において，検出結果の集合$\mathcal{Y}=\{\mathbf{y}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合を$\mathcal{F} = \{\mathbf{f}_{j}\}_{j=1}^{N}$とすると，検出結果$\mathbf{y}_{j}$の姿勢特徴量$\mathbf{f}_{j}$は，次のように定義される．
