@@ -8,11 +8,11 @@
 
         \begin{table*}[tb]
             \centering
-            \caption{aiueo}
+            \caption{VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対するOC-SORTと手案手法の比較結果．各列は評価指標を表し，OC-SORTより高い性能を示した値は太字で強調している．}
             \label{tab:result}
-            \begin{tabular*}{\linewidth}{c|cccccccc}
+            \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}c|cccccccc}
                 \hline
-                Method & $\mathrm{MOTA} \uparrow$ & $\mathrm{|FP| \downarrow}$ & $\mathrm{|FN| \downarrow}$ & $\mathrm{|IDs| \downarrow}$ & $\mathrm{|IDF1| \uparrow}$ & $\mathrm{|IDP| \uparrow}$ & $\mathrm{IDR} \uparrow$ & $\mathrm{|FM| \downarrow}$\\
+                Tracking method & $\mathrm{MOTA} \uparrow$ & $\mathrm{|FP| \downarrow}$ & $\mathrm{|FN| \downarrow}$ & $\mathrm{|IDs| \downarrow}$ & $\mathrm{|IDF1| \uparrow}$ & $\mathrm{IDP \uparrow}$ & $\mathrm{IDR} \uparrow$ & $\mathrm{|FM| \downarrow}$\\
                 \hline
                 \hline
                 OC-SORT & 80.472 & 2350 & 2624 & 29 & 80.743 & 81.180 & 80.311 & 208 \\
@@ -23,30 +23,30 @@
     
         \subsection{実験条件}
 
-            本研究では，VIP-HTD(Vision and Image Processing Hokey Tracking Dataset)\cite{}を用いて，従来手法であるOC-SORTと提案手法の比較評価を行った．この際，OC-SORTと提案手法の両方にByteTrack\cite{ByteTrack2022}で提案された検出信頼度に基づいた二段階のAssociationを導入した．これは，スポーツシーンにおいてはカメラモーションによるMotion Blurが頻発し，検出信頼度の低い検出結果が得られる傾向にあることを考慮してのことである．VIP-HTDは，試合中のアイスホッケー選手を追跡対象とするMOTデータセットであり，計22個（訓練:14個/評価:1個/テスト:7個）のシーケンス，計73,890枚（訓練:45,396枚/評価:2,981枚/テスト:25,513枚）のフレームで構成されている．
+            本研究では，VIP-HTD(Vision and Image Processing Hokey Tracking Dataset)\cite{VIP-HTD2024}を用いて，従来手法であるOC-SORTと提案手法の比較評価を行った．VIP-HTDは，試合中のアイスホッケー選手を追跡対象とするMOTデータセットであり，計22シーケンス（訓練:14/評価:1/テスト:7），計73,890フレーム（訓練:45,396/評価:2,981/テスト:25,513）で構成されている．
+            スポーツシーンではカメラモーションに起因するMotion Blur（カメラや被写体の動きによる撮像画像のブレ）が頻発し，検出信頼度の低い検出結果が得られやすい．この点を考慮し，OC-SORTおよび提案手法の両方にByteTrack\cite{ByteTrack2022}で提案された検出信頼度に基づく二段階のAssociationを導入した．
 
-            物体検出器には，VIP-HTDの訓練データで事前学習済みのYOLOX\cite{YOLOX2021}を使用した．物体追跡では，YOLOXが出力した検出結果の内，検出信頼値$c_{d} \in [0,1]$が$0.6 \le c_{d} \le 1.0$のものを第一段階のAssociationに，$0.1 < c_{d} < 0.6$のものを第二段階のAssociationに利用した．また，姿勢推定器にはMS COCOで事前学習済みのHRNet(High-Resolution Network)\cite{HRNet2019}を用い，物体追跡ではHRNetのlayer4が出力する特徴マップから得られた姿勢特徴量$\mathbf{f} \in \mathbb{R}^{48}$をAssociationに利用した．
+            物体検出器には，VIP-HTDの訓練データで事前学習済みのYOLOX\cite{YOLOX2021}を使用した．物体追跡では，検出信頼値$c_{d} \in [0,1]$が$0.6 \le c_{d} \le 1.0$の検出結果を第一段階のAssociationに，$0.1 < c_{d} < 0.6$の検出結果を第二段階のAssociationに利用した．姿勢推定器にはMS COCOで事前学習済みのHRNet(High-Resolution Network)\cite{HRNet2019}を用い，HRNetのlayer4が出力する特徴マップから得られる姿勢特徴量（$C=48$）をAssociationに利用した．
 
-            評価実験では，$\mathrm{MOTA}$(Multi-Object Tracking Accuracy)\cite{MOTA}，$\mathrm{IDF1}$(ID F1-score)\cite{IDF1}を評価指標として用いた．
+            評価指標には，$\mathrm{MOTA}$(Multi-Object Tracking Accuracy)\cite{MOTA}，$\mathrm{IDF1}$(ID F1-score)\cite{IDF1}，$|\mathrm{FM}|$を用いた．
             $\mathrm{MOTA}$は$|\mathrm{TP}|,|\mathrm{FP}|,|\mathrm{FN}|,|\mathrm{IDs}|$から算出されるMOTの総合評価指標であり，追跡精度を物体のBBox単位で評価する．ここで$|\mathrm{TP}|$は推定BBoxと真値の一致数，$|\mathrm{FP}|$は真値と一致しなかった推定BBoxの数，$|\mathrm{FP}|$は推定BBoxに一致しなかった真値の数，$|\mathrm{IDs}|$はID Switchの総発生回数を表す．
-            また，$\mathrm{IDF1}$は$\mathrm{IDP}$と$\mathrm{IDR}$の調和平均として算出されるMOTの総合評価指標であり，追跡精度を物体の軌跡単位で評価する．ここで，$\mathrm{IDP}$と$\mathrm{IDR}$は推定軌跡と真値の間で算出される適合率・再現率を表す．
+            また，$\mathrm{IDF1}$は$\mathrm{IDP}$と$\mathrm{IDR}$の調和平均として算出されるMOTの総合評価指標であり，追跡精度を物体の軌跡単位で評価する．ここで，$\mathrm{IDP}$と$\mathrm{IDR}$は推定軌跡と真値の間で算出される適合率・再現率を表す．$|\mathrm{FM}|$は，Fragmentation（追跡途中の物体が途切れ，その軌跡が分断される現象）の総発生回数を表す．
 
         \subsection{実験結果および考察}
-            表\ref{tab:result}に，VIP-HTDデータセットのテストデータに対する定量評価結果を示す．
-
-            図\ref{fig:result_vis}に，定性評価結果を示す．
+            表\ref{tab:result}に，VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対する評価結果を示す．この際，提案手法では$\lambda _{p} = 0.6, \gamma = 0.8, \tau = 0.1$として追跡を行った．提案手法はOC-SORTと比較して$|\mathrm{FM}|$以外の指標で改善が見られ，特に$\mathrm{IDF1}$が向上している．これは，提案手法がよりIDの一貫性を保ちながら正確な物体の軌跡を推定できていることを示しており，姿勢特徴に基づくAssociationが追跡精度を向上させる上で効果的だと考えられる．
 
                 \begin{figure*}[tb]
                     \centering
                     \includegraphics[width=\linewidth]{figures/section4/result_vis.png}
-                    \caption{VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対する追跡結果の例．}
+                    \caption{VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対する追跡結果の例．1行目はOC-OSRT，2行目は提案手法の追跡結果であり，左から時系列順にサンプリングされたフレームの結果を示している．各フレームには，追跡された物体のBounding-BoxとIDが可視化され，同じ色のBounding-Boxは同じIDを持つことを意味する．}
                     \label{fig:result_vis}
                 \end{figure*}
 
-
-
-
-
+            図\ref{fig:result_vis}に，OC-SORTと提案手法の追跡例を示す．
+            本シーンは三名の選手が交錯し，Occlutionが発生する追跡難易度の高い場面である．
+            図\ref{fig:result_vis}において，OC-SORTでは，ID Switchが発生していることが確認できる．具体的には，追跡ID:12と追跡ID:13の二人の選手に注目すると，時間的に誤ったID割当てが行われ，二人のIDが入れ替わっている．
+            一方，提案手法では各選手に対して継続的に正しいIDが割り当てられていることが確認できる．
+            これにより，姿勢推定器の中間層から得られる姿勢特徴が，選手の識別性を強化することに寄与していると考えられる．
 
 
     % 文献情報を条件分岐（サブファイルが直接コンパイルされた場合のみ適用）
