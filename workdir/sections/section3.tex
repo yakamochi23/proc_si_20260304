@@ -7,21 +7,21 @@
 
         
         スポーツシーンでは，選手が急な加減速や方向転換を繰り返すため運動の不規則性が高く，さらにユニフォームの共通性により外観の識別性も低い．このため，IoUや外観特徴に依存した従来のAssociationには限界がある．一方，各選手は試合中に多様な姿勢をとり，隣接フレーム間では姿勢の連続性が保たれやすいことから，姿勢情報は有効な識別手掛かりとなり得る．しかし，keypointに基づくコスト関数は，Occlusion等に起因する欠落・誤推定の影響を受けやすく，Associationが不安定になる．
-        そこで本研究では，keypointの完全性に過度に依存しない表現として，姿勢推定器の中間層から得られる特徴量を用い，姿勢の類似性を定式化してAssociationに組み込む手法を提案する．提案手法のパイプラインを図\ref{fig:method_overview}に示す．
+        そこで本研究では，keypointの完全性に過度に依存しない表現として，姿勢推定器の中間層から得られる特徴量を用い，姿勢の類似性を定式化してAssociationに組み込む手法を提案する．提案手法の追跡パイプラインを図\ref{fig:method_overview}に示す．
             \begin{figure*}[tb]
                 \centering
                 \includegraphics[width=\linewidth]{figures/section3/method_overview.png}
-                \caption{提案する姿勢情報に基づいたAssociationの概要．検出結果$\{\mathbf{y}_{j}\}_{j=1}^{M}$に対して姿勢推定器を用いた特徴抽出を独立に行い，姿勢特徴量$\{\mathbf{f}_{j}\}_{j=1}^{M}$を得る．その後，コスト関数$C_{\mathrm{pose}}(\cdot)$によって算出した姿勢類似性を利用して，トラックと検出結果を対応付ける．}
+                \caption{提案する姿勢情報に基づいたAssociationの概要．検出結果$\{\mathbf{y}_{j}\}_{j=1}^{M}$に対して姿勢推定器を用いた特徴抽出を独立に行い，姿勢特徴量$\{\mathbf{f}_{j}\}_{j=1}^{M}$を得る．その後，コスト関数$C_{\mathrm{pose}}(\cdot)$によって算出した姿勢類似性に基づいて，トラックと検出結果を対応付ける．}
                 \label{fig:method_overview}
             \end{figure*}
 
 
         \subsection{姿勢特徴量の抽出}
-            ある時刻において，検出結果の集合$\mathcal{Y}=\{\mathbf{y}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合を$\mathcal{F} = \{\mathbf{f}_{j}\}_{j=1}^{N}$とすると，検出結果$\mathbf{y}_{j}$の姿勢特徴量$\mathbf{f}_{j}$は，次のように定義される．
+            ある時刻において，検出結果の集合$\mathcal{Y}=\{\mathbf{y}_j\}_{j=1}^{N}$に対して得られる姿勢特徴量の集合を$\mathcal{F} = \{\mathbf{f}_{j}\}_{j=1}^{N}$とし，検出結果$\mathbf{y}_{j}$の姿勢特徴量$\mathbf{f}_{j}$を次のように定義する．
                 \begin{equation}
                     \mathbf{f}_{j} = \mathrm{GAP}(F_{j}) \in \mathbb{R}^{C} 
                 \end{equation}
-            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\mathbf{y}_{j}$のBBoxに対応する画像領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\mathbf{y}_{j}$の局所的な間接配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオでは，比較的頑健な物体表現が得られることが期待される．
+            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\mathbf{y}_{j}$のBBoxに対応する画像領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\mathbf{y}_{j}$の局所的な間接配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオにおいて，比較的頑健な物体表現が得られることが期待される．
             また，$\mathbf{f}_{j} \in \mathbb{R}^{C}$は，$F_{j}$にGAP(Global Average Pooling)を適用し，$C$次元のベクトルに変換することで得られる．
 
         \subsection{姿勢特徴を考慮したAssociation}
@@ -51,11 +51,11 @@
                     \mathbf{g}_{k} \leftarrow \mathbf{g}_{k}, \quad c_{k} \leftarrow \1_{ \{\gamma c_{k} > \tau\} } \gamma c_{k}
                     \label{eq:decay_pose_conf}
                 \end{equation}
-            ここで，$\gamma \in (0, 1]$は減衰率，$\tau$は姿勢信頼度の閾値であり，$\1_{ \{\gamma c_{k} > \tau\} }$は減衰値$\gamma c_{k}$が閾値$\tau$以上の場合に$1$，それ以外の場合に$0$を出力する指示関数である．式\ref{eq:decay_pose_conf}による信頼度の減衰挙動を図\ref{fig:pose_conf_decay}に示す．式\ref{eq:update_pose_info},\ref{eq:decay_pose_conf}に基づいて集合$\mathcal{G}$を更新することで，時間的に物体の姿勢が変化する中で，長期間対応付けられていないトラックの姿勢情報がAssociationに与える影響を抑制し，追跡精度の低下を防ぐ狙いがある．     
+            ここで，$\gamma \in (0, 1]$は減衰率，$\tau$は姿勢信頼度の閾値であり，$\1_{ \{\gamma c_{k} > \tau\} }$は減衰値$\gamma c_{k}$が閾値$\tau$以上の場合に$1$，それ以外の場合に$0$を出力する指示関数である．式\ref{eq:decay_pose_conf}に基づいた姿勢信頼度の減衰挙動を図\ref{fig:pose_conf_decay}に示す．式\ref{eq:update_pose_info},\ref{eq:decay_pose_conf}に基づいて集合$\mathcal{G}$を更新することで，時間的に物体の姿勢が変化する中で，長期間対応付けられていないトラックの姿勢情報がAssociationに与える影響を抑制し，追跡精度の低下を防ぐ狙いがある．     
                 \begin{figure}[tb]
                     \centering
                     \includegraphics[width=\linewidth]{figures/section3/conf_graph.pdf}
-                    \caption{姿勢信頼度の減衰挙動．縦軸は姿勢信頼度，横軸はトラックが連続で検出結果と対応付けられなかった時間ステップ数を表す．}
+                    \caption{姿勢信頼度の減衰挙動（$\tau=0.1$）．縦軸は姿勢信頼度，横軸はトラックが連続で検出結果と対応付けられなかった時間ステップ数を表す．姿勢信頼度は閾値$\tau$を下回ると$0$になる．}
                     \label{fig:pose_conf_decay}
                 \end{figure}
 
