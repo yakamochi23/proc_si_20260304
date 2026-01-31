@@ -11,7 +11,7 @@
             \begin{figure*}[tb]
                 \centering
                 \includegraphics[width=\linewidth]{figures/section3/method_overview.png}
-                \caption{提案する姿勢情報に基づいたAssociationの概要．検出結果$\{\mathbf{y}_{j}\}_{j=1}^{M}$に対して姿勢推定器を用いた特徴抽出を独立に行い，姿勢特徴量$\{\mathbf{f}_{j}\}_{j=1}^{M}$を得る．その後，コスト関数$C_{\mathrm{pose}}(\cdot)$によって算出した姿勢類似性を利用して，トラックと検出結果を対応付ける．}
+                \caption{提案する姿勢情報に基づいたAssociationの概要．検出結果$\{\mathbf{y}_{j}\}_{j=1}^{M}$に対して姿勢推定器を用いた特徴抽出を独立に行い，姿勢特徴量$\{\mathbf{f}_{j}\}_{j=1}^{M}$を得る．その後，コスト関数$C_{\mathrm{pose}}(\cdot)$によって算出した姿勢類似性に基づいて，トラックと検出結果を対応付ける．}
                 \label{fig:method_overview}
             \end{figure*}
 
@@ -55,7 +55,7 @@
                 \begin{figure}[tb]
                     \centering
                     \includegraphics[width=\linewidth]{figures/section3/conf_graph.pdf}
-                    \caption{姿勢信頼度の減衰挙動．縦軸は姿勢信頼度，横軸はトラックが連続で検出結果と対応付けられなかった時間ステップ数を表す．}
+                    \caption{姿勢信頼度の減衰挙動（$\tau=0.1$）．縦軸は姿勢信頼度，横軸はトラックが連続で検出結果と対応付けられなかった時間ステップ数を表す．姿勢信頼度は閾値$\tau$を下回ると$0$になる．}
                     \label{fig:pose_conf_decay}
                 \end{figure}
 
