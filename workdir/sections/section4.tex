@@ -8,7 +8,7 @@
 
         \begin{table*}[tb]
             \centering
-            \caption{VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対するOC-SORTと手案手法の比較結果．各列は評価指標を表し，OC-SORTより高い性能を示した値は太字で強調している．}
+            \caption{VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対するOC-SORTと提案手法の比較結果．各列は評価指標を表し，OC-SORTより高い性能を示した値は太字で強調している．}
             \label{tab:result}
             \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}c|cccccccc}
                 \hline
@@ -38,12 +38,12 @@
                 \begin{figure*}[tb]
                     \centering
                     \includegraphics[width=\linewidth]{figures/section4/result_vis.png}
-                    \caption{VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対する追跡結果の例．1行目はOC-OSRT，2行目は提案手法の追跡結果であり，左から時系列順にサンプリングされたフレームの結果を示している．各フレームには，追跡された物体のBounding-BoxとIDが可視化され，同じ色のBounding-Boxは同じIDを持つことを意味する．}
+                    \caption{VIP-HTDのCGY\_VS\_DAL\_003シーケンスに対する追跡結果の例．1行目はOC-SORT，2行目は提案手法の追跡結果であり，左から時系列順にサンプリングされたフレームの結果を示している．各フレームには，追跡された物体のBounding-BoxとIDが可視化され，同じ色のBounding-Boxは同じIDを持つことを意味する．}
                     \label{fig:result_vis}
                 \end{figure*}
 
             図\ref{fig:result_vis}に，OC-SORTと提案手法の追跡例を示す．
-            本シーンは三名の選手が交錯し，Occlutionが発生する追跡難易度の高い場面である．
+            本シーンは三名の選手が交錯し，Occlusionが発生する追跡難易度の高い場面である．
             図\ref{fig:result_vis}において，OC-SORTでは，ID Switchが発生していることが確認できる．具体的には，追跡ID:12と追跡ID:13の二人の選手に注目すると，時間的に誤ったIDが割り当てられ，二人のIDが入れ替わっている．
             一方，提案手法では各選手に対して継続的に正しいIDが割り当てられていることが確認できる．
             これにより，姿勢推定器の中間層から得られる姿勢特徴量が，選手の識別性を強化することに有効だと考えられる．
