@@ -6,7 +6,7 @@
     \section{提案手法}
 
         
-        スポーツシーンでは，選手が急な加減速や方向転換を繰り返すため運動の不規則性が高く，さらにユニフォームの共通性により外観の識別性も低い．このため，IoUや外観特徴に依存した従来のAssociationには限界がある．一方，各選手は試合中に多様な姿勢をとり，隣接フレーム間では姿勢の連続性が保たれやすいことから，姿勢情報は有効な識別手掛かりとなり得る．しかし，keypointに基づくコスト関数は，Occlusion等に起因する欠落・誤推定の影響を受けやすく，Associationが不安定になる．
+        スポーツシーンでは，選手が急な加減速や方向転換を繰り返すため運動の不規則性が高く，さらに共通のユニフォームによって外観の識別性も低い．このため，IoUや外観特徴に依存した従来のAssociationには限界がある．一方，各選手は試合中に多様な姿勢をとり，隣接フレーム間では姿勢の連続性が保たれやすいことから，姿勢情報は有効な識別手掛かりとなり得る．しかし，keypointに基づくコスト関数は，Occlusion等に起因する欠落・誤推定の影響を受けやすく，Associationが不安定になる．
         そこで本研究では，keypointの完全性に過度に依存しない表現として，姿勢推定器の中間層から得られる特徴量を用い，姿勢の類似性を定式化してAssociationに組み込む手法を提案する．提案手法の追跡パイプラインを図\ref{fig:method_overview}に示す．
             \begin{figure*}[tb]
                 \centering
@@ -29,10 +29,10 @@
 
             本研究では，姿勢特徴を考慮したAssociationを行うにあたり，トラックと検出結果の姿勢類似度を式(\ref{eq:cost_pose})で定まる姿勢コスト関数$C_{\mathrm{pose}}(\cdot)$を用いて求める．
                 \begin{equation}
-                    C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \mathbf{y}_{j}) = \dfrac{\mathbf{g}_{i}^{\mathrm{T}} \mathbf{f}_{j}}{{\left\Vert \mathbf{g}_{i} \right\Vert}_{2}\,{\left\Vert \mathbf{f}_{j} \right\Vert}_{2}} \in [0, 1]
+                    C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \mathbf{y}_{j}) = \dfrac{1}{2}\left(1 +\dfrac{\mathbf{g}_{i}^{\mathrm{T}} \mathbf{f}_{j}}{{\left\Vert \mathbf{g}_{i} \right\Vert}_{2}\,{\left\Vert \mathbf{f}_{j} \right\Vert}_{2}}\right) \in [0, 1]
                     \label{eq:cost_pose}
                 \end{equation}
-            式(\ref{eq:cost_pose})は$\mathbf{g}_{i}$と$\mathbf{f}_{j}$のコサイン類似度を表し，その値が$1$に近づくほどトラック$\hat{\mathbf{x}}_{i}$と検出結果$\mathbf{y}_{j}$の姿勢類似性が高いことを意味する．
+            式(\ref{eq:cost_pose})は$\mathbf{g}_{i}$と$\mathbf{f}_{j}$のコサイン類似度を$[0, 1]$に正規化した値を表し，その値が$1$に近いほどトラック$\hat{\mathbf{x}}_{i}$と検出結果$\mathbf{y}_{j}$の姿勢類似性が高いことを意味する．
             最終的なコスト関数$\mathcal{L}_{\mathrm{match}}(\cdot)$は，OC-SORTの既存コスト関数$C_{\mathrm{ocsort}}(\cdot)$に姿勢コスト関数$C_{\mathrm{pose}}(\cdot)$を加えて式(\ref{eq:final_cost})で与える．
                 \begin{equation}
                     \mathcal{L}_{\mathrm{match}} (\hat{\mathbf{x}}_{i}, \mathbf{y}_{j}) = C_{\mathrm{ocsort}}(\hat{\mathbf{x}}_{i}, \mathbf{y}_{j}) + \lambda_{p} c_{i} C_{\mathrm{pose}}(\hat{\mathbf{x}}_{i}, \mathbf{y}_{j})
