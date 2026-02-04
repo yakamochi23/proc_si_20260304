@@ -12,7 +12,7 @@
             \label{tab:result}
             \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}c|cccccccc}
                 \hline
-                Tracking method & $\mathrm{MOTA} \uparrow$ & $\mathrm{|FP| \downarrow}$ & $\mathrm{|FN| \downarrow}$ & $\mathrm{|IDs| \downarrow}$ & $\mathrm{IDF1 \uparrow}$ & $\mathrm{IDP \uparrow}$ & $\mathrm{IDR} \uparrow$ & $\mathrm{|FM| \downarrow}$\\
+                Tracking method & $\mathrm{MOTA} \uparrow$ & $\mathrm{|FP|} \downarrow$ & $\mathrm{|FN|} \downarrow$ & $\mathrm{|IDs|} \downarrow$ & $\mathrm{IDF1} \uparrow$ & $\mathrm{IDP} \uparrow$ & $\mathrm{IDR} \uparrow$ & $\mathrm{|FM|} \downarrow$\\
                 \hline
                 \hline
                 OC-SORT & 80.472 & 2350 & 2624 & 29 & 80.743 & 81.180 & 80.311 & 208 \\
@@ -23,7 +23,7 @@
     
         \subsection{実験条件}
 
-            本研究では，VIP-HTD(Vision and Image Processing Hokey Tracking Dataset)\cite{VIP-HTD2024}を用いて，従来手法であるOC-SORTと提案手法の比較評価を行った．VIP-HTDは，試合中のアイスホッケー選手を追跡対象とするMOTデータセットであり，計22シーケンス（訓練:14/検証:1/テスト:7），計73,890フレーム（訓練:45,396/検証:2,981/テスト:25,513）で構成されている．
+            本研究では，VIP-HTD(Vision and Image Processing Hockey Tracking Dataset)\cite{VIP-HTD2024}を用いて，従来手法であるOC-SORTと提案手法の比較評価を行った．VIP-HTDは，試合中のアイスホッケー選手を追跡対象とするMOTデータセットであり，計22シーケンス（訓練:14/検証:1/テスト:7），計73,890フレーム（訓練:45,396/検証:2,981/テスト:25,513）で構成されている．
             スポーツシーンではカメラモーションに起因するMotion Blur（カメラや被写体の動きによる撮像画像のブレ）が頻発し，検出信頼度の低い検出結果が得られやすい．この点を考慮し，OC-SORTおよび提案手法の両方にByteTrack\cite{ByteTrack2022}で提案された検出信頼度に基づく二段階のAssociationを導入した．
 
             物体検出器には，VIP-HTDの訓練データで学習済みのYOLOX\cite{YOLOX2021}を使用した．追跡では，検出信頼度$c_{d} \in [0,1]$が$0.6 \le c_{d} \le 1.0$の検出結果を第一段階のAssociationに，$0.1 < c_{d} < 0.6$の検出結果を第二段階のAssociationに利用した．姿勢推定器にはMS COCOで事前学習済みのHRNet(High-Resolution Network)\cite{HRNet2019}を用い，HRNetのlayer4が出力する特徴マップから得られる姿勢特徴量（$C=48$）をAssociationに利用した．
