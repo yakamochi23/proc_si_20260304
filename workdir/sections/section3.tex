@@ -21,7 +21,7 @@
                 \begin{equation}
                     \mathbf{f}_{j} = \mathrm{GAP}(F_{j}) \in \mathbb{R}^{C} 
                 \end{equation}
-            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\mathbf{y}_{j}$のBBoxに対応する画像領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\mathbf{y}_{j}$の局所的な間接配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオにおいて，比較的頑健な物体表現が得られることが期待される．
+            ここで，$F_{j} \in \mathbb{R}^{C \times H \times W}$は，$\mathbf{y}_{j}$のBBoxに対応する画像領域をTop-Down方式の姿勢推定器に入力した際に，その中間層が出力する特徴マップである．この特徴マップ$F_{j}$は，対象物体$\mathbf{y}_{j}$の局所的な関節配置や身体構造を捉えており，外観が類似する物体が多く登場するシナリオにおいて，比較的頑健な物体表現が得られることが期待される．
             また，$\mathbf{f}_{j} \in \mathbb{R}^{C}$は，$F_{j}$にGAP(Global Average Pooling)を適用し，$C$次元のベクトルに変換することで得られる．
 
         \subsection{姿勢特徴を考慮したAssociation}
@@ -46,7 +46,7 @@
                     \mathbf{g}_{i} \leftarrow \mathbf{f}_{j}, \quad c_{i} \leftarrow 1.0
                     \label{eq:update_pose_info}
                 \end{equation}
-            これは，最新の検出結果が持つ姿勢特徴量を対応付けられたトラックが引継ぎ，信頼度を最大値に戻す操作である．一方，どの検出結果にも対応付けられなかったトラック$\hat{\mathbf{x}}_{k}$については，保持している姿勢特徴量$\mathbf{g}_{k}$を維持しつつ，姿勢信頼度$c_{k}$のみを時間減衰させる．
+            これは，最新の検出結果が持つ姿勢特徴量を対応付けられたトラックが引き継ぎ，信頼度を最大値に戻す操作である．一方，どの検出結果にも対応付けられなかったトラック$\hat{\mathbf{x}}_{k}$については，保持している姿勢特徴量$\mathbf{g}_{k}$を維持しつつ，姿勢信頼度$c_{k}$のみを時間減衰させる．
                 \begin{equation}
                     \mathbf{g}_{k} \leftarrow \mathbf{g}_{k}, \quad c_{k} \leftarrow \1_{ \{\gamma c_{k} \ge \tau\} } \gamma c_{k}
                     \label{eq:decay_pose_conf}
